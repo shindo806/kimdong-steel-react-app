@@ -1,0 +1,336 @@
+{
+  "donHang": [
+    {
+      "duno": -1004800,
+      "tenkhachhang": "lam thai son",
+      "masodonhang": "010611",
+      "ngaylapdonhang": "06/11/2019",
+      "vat": true,
+      "tongtien": 1004800,
+      "thanhtoan": 0,
+      "ngaygiao": "",
+      "trangthaigiacong": false,
+      "thongtindonhang": [
+        {
+          "masoloaithep": "T1",
+          "loaihang": "Tấm - 8 ly : 500*1000",
+          "dai": "",
+          "day": "8",
+          "donvitinh": "cai",
+          "soluong": "2",
+          "a": "500",
+          "b": "1000",
+          "c": "",
+          "a1": "",
+          "cong1": 16000,
+          "cong2": 0,
+          "cong3": 0,
+          "dongia": 502400,
+          "thanhtien": 1004800
+        }
+      ]
+    },
+    {
+      "duno": -113668080,
+      "tenkhachhang": "lam thai son",
+      "masodonhang": "010711",
+      "ngaylapdonhang": "07/11/2019",
+      "vat": false,
+      "tongtien": 113668080,
+      "thanhtoan": 0,
+      "ngaygiao": "",
+      "trangthaigiacong": true,
+      "thongtindonhang": [
+        {
+          "masoloaithep": "T2",
+          "loaihang": "Tấm - 10 ly : 70*100-500&#8709;",
+          "dai": "",
+          "day": "10",
+          "donvitinh": "tam",
+          "soluong": "15",
+          "a": "70",
+          "b": "100",
+          "c": "500",
+          "a1": "",
+          "cong1": 16000,
+          "cong2": 15000,
+          "cong3": 0,
+          "dongia": 7508792,
+          "thanhtien": 112631880
+        },
+        {
+          "masoloaithep": "T2",
+          "loaihang": "Tấm - 10 ly : 70*100-500&#8709;",
+          "dai": "",
+          "day": "10",
+          "donvitinh": "tam",
+          "soluong": "15",
+          "a": "70",
+          "b": "100",
+          "c": "500",
+          "a1": "",
+          "cong1": 16000,
+          "cong2": 15000,
+          "cong3": 0,
+          "dongia": 7508792,
+          "thanhtien": 112631880
+        }
+      ]
+    },
+    {
+      "duno": -2512000,
+      "tenkhachhang": "lam thai son",
+      "masodonhang": "030911",
+      "ngaylapdonhang": "09/11/2019",
+      "tongtien": 2512000,
+      "thanhtoan": 0,
+      "ngaygiao": "",
+      "trangthaigiacong": false,
+      "vat": false,
+      "thongtindonhang": [
+        {
+          "masoloaithep": "T1",
+          "loaihang": "Tấm - 8 ly : 500*1000",
+          "dai": "",
+          "day": "8",
+          "donvitinh": "tam",
+          "soluong": "5",
+          "a": "500",
+          "b": "1000",
+          "c": "",
+          "a1": "",
+          "cong1": 16000,
+          "cong2": null,
+          "cong3": null,
+          "dongia": 502400,
+          "thanhtien": 2512000
+        }
+      ]
+    },
+    {
+      "duno": -30144,
+      "tenkhachhang": "le van sinh",
+      "masodonhang": "011311",
+      "ngaylapdonhang": "13/11/2019",
+      "tongtien": 30144,
+      "thanhtoan": 0,
+      "ngaygiao": "",
+      "trangthaigiacong": false,
+      "vat": false,
+      "thongtindonhang": [
+        {
+          "masoloaithep": "T1",
+          "loaihang": "Tấm - 8 ly : 80*100",
+          "dai": "",
+          "day": "8",
+          "donvitinh": "cai",
+          "soluong": "2",
+          "a": "80",
+          "b": "100",
+          "c": "",
+          "a1": "",
+          "cong1": 15000,
+          "cong2": null,
+          "cong3": null,
+          "dongia": 7536,
+          "thanhtien": 15072
+        },
+        {
+          "masoloaithep": "T1",
+          "loaihang": "Tấm - 8 ly : 80*100",
+          "dai": "",
+          "day": "8",
+          "donvitinh": "cai",
+          "soluong": "2",
+          "a": "80",
+          "b": "100",
+          "c": "",
+          "a1": "",
+          "cong1": 15000,
+          "cong2": null,
+          "cong3": null,
+          "dongia": 7536,
+          "thanhtien": 15072
+        }
+      ]
+    },
+    {
+      "duno": -1332867,
+      "tenkhachhang": "lam thai son",
+      "masodonhang": "031311",
+      "ngaylapdonhang": "13/11/2019",
+      "tongtien": 1332867,
+      "thanhtoan": 0,
+      "ngaygiao": "2h chieu",
+      "trangthaigiacong": false,
+      "vat": false,
+      "thongtindonhang": [
+        {
+          "masoloaithep": "T1",
+          "loaihang": "Tấm - 8 ly : 70*100",
+          "dai": "",
+          "day": "8",
+          "donvitinh": "cai",
+          "soluong": "2",
+          "a": "70",
+          "b": "100",
+          "c": "",
+          "a1": "",
+          "cong1": 16000,
+          "cong2": null,
+          "cong3": null,
+          "dongia": 7034,
+          "thanhtien": 14067
+        },
+        {
+          "masoloaithep": "T2",
+          "loaihang": "Tấm - 10 ly : 70*1000-20&#8709;",
+          "dai": "",
+          "day": "10",
+          "donvitinh": "cai",
+          "soluong": "15",
+          "a": "70",
+          "b": "1000",
+          "c": "20",
+          "a1": "",
+          "cong1": 16000,
+          "cong2": 0,
+          "cong3": 0,
+          "dongia": 87920,
+          "thanhtien": 1318800
+        }
+      ]
+    }
+  ],
+  "khachHang": [
+    {
+      "id": "LbNtVmRFYpoyaPiVXkTVq8paXOAS8K6h",
+      "tenkhachhang": "lam thai son",
+      "sodienthoai": "0938752570"
+    },
+    {
+      "id": "REwwzYRJS6AMkfjGgr6CXLncL7XF05hm",
+      "tenkhachhang": "le van sinh",
+      "sodienthoai": "09123456"
+    }
+  ],
+  "muaHang": [
+    {
+      "nhacungcap": "lam thai son",
+      "ngaythangnam": "17/11/2019",
+      "congtienhang": "5000000",
+      "duno": "-4000000",
+      "tratien": "1000000",
+      "ghichu": "mang thieu tien",
+      "ID": "o8eLmOIfqCYHh732wvYgUZ9oP1xXcf6C"
+    },
+    {
+      "nhacungcap": "le van sinh",
+      "ngaythangnam": "16/11/2019",
+      "congtienhang": "4000000",
+      "duno": "0",
+      "tratien": "4000000",
+      "ghichu": "test du lieu",
+      "ID": "9d5fGc7YmHG77tALk0WYU4klc4Evwb9s"
+    },
+    {
+      "nhacungcap": "test 1",
+      "ngaythangnam": "17/11/2019",
+      "congtienhang": "3000000",
+      "duno": "-1000000",
+      "tratien": "2000000",
+      "ghichu": "khong co ghi chu gi",
+      "ID": "QiDbrkG8aYPAqQtO8vmM7OZ6a4G6DEsN"
+    },
+    {
+      "nhacungcap": "test 2",
+      "ngaythangnam": "17/11/2019",
+      "congtienhang": "5000000",
+      "duno": "-2.000.000",
+      "tratien": "3000000",
+      "ghichu": "chua thanh toan ty nao",
+      "ID": "iZK5D7SnBZEWTkZ5IwlCjNTtWZyZz1mz"
+    },
+    {
+      "nhacungcap": "lam thai son",
+      "ngaythangnam": 18,
+      "congtienhang": 5000000,
+      "duno": -4000000,
+      "tratien": 1000000,
+      "ghichu": null,
+      "ID": "vIvzMxbk3SKYPnvbVZHnailGWdFkwyAY"
+    },
+    {
+      "nhacungcap": "ok",
+      "ngaythangnam": 31223156,
+      "congtienhang": 1000000,
+      "duno": -1000000,
+      "tratien": 0,
+      "ghichu": 123123123,
+      "ID": "e0OnC7FGiQozxrmenctCxpgD2VcsEf1m"
+    },
+    {
+      "nhacungcap": "test 5",
+      "ngaythangnam": "15/11/2019",
+      "congtienhang": 1000000,
+      "duno": -1000000,
+      "tratien": 0,
+      "ghichu": null,
+      "ID": "Tdw510VNnyXtm6uzWqdcAJgKgG94FZL6"
+    },
+    {
+      "ID": "DK7qjIQrtNx0wpmZrQeD4im2hmsiAqA6",
+      "nhacungcap": "test 10",
+      "ngaythangnam": "16/11/2019",
+      "congtienhang": 5000000,
+      "duno": -4000000,
+      "tratien": 1000000,
+      "ghichu": "ok"
+    },
+    {
+      "ID": "2zdq09W6lA9zbhxmNR2YzUc56KJ5Kor8",
+      "nhacungcap": "lam thai son 1",
+      "ngaythangnam": "18/11/2019",
+      "congtienhang": 6000000,
+      "duno": -4000000,
+      "tratien": 2000000,
+      "ghichu": ""
+    },
+    {
+      "ID": "d269UmuwmPXFFBnnXEyMYXKL5rYW3zug",
+      "nhacungcap": "lam thai son",
+      "ngaythangnam": "19/11/2019",
+      "congtienhang": 5000000,
+      "duno": 0,
+      "tratien": 5000000,
+      "ghichu": ""
+    },
+    {
+      "ID": "shvqb6gLkFS0kIwqGKpWyZBFQJKXbz0s",
+      "nhacungcap": "lam thai son",
+      "ngaythangnam": "20-11-2019",
+      "congtienhang": 11000000,
+      "duno": -6000000,
+      "tratien": 5000000,
+      "ghichu": "thiếu chút thôi"
+    },
+    {
+      "ID": "AbCBFvvEuMTqqZV50Sr5JqaDstualIPK",
+      "nhacungcap": "lam thai son",
+      "ngaythangnam": "19-11-2019",
+      "congtienhang": 5000000,
+      "duno": -1000000,
+      "tratien": 4000000,
+      "ghichu": ""
+    },
+    {
+      "ID": "iZbRGUMzFxIvjQXW3iq7py6H0753HADX",
+      "nhacungcap": "hello Brother",
+      "ngaythangnam": "17/11/2019",
+      "congtienhang": 5000000,
+      "duno": -4000000,
+      "tratien": 1000000,
+      "ghichu": "Không có ghi chú gì đâu nha"
+    }
+  ]
+}
