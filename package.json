@@ -5,7 +5,8 @@
   "private": true,
   "author": {
     "name": "Shindo Hikaru",
-    "email": "thaisonlamsp@gmail.com"
+    "email": "thaisonlamsp@gmail.com",
+    "url": "https://github.com/shindo806/kimdong-steel-react-app.git"
   },
   "build": {
     "appId": "com.my-website.my-app",
