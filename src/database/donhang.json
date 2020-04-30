@@ -1,0 +1,79 @@
+{
+  "donHang": [{
+      "duno": -1004800,
+      "tenkhachhang": "lam thai son",
+      "khachhangID": "1",
+      "masodonhang": "010611",
+      "ngaylapdonhang": "06/11/2019",
+      "vat": true,
+      "tongtien": 1004800,
+      "thanhtoan": 0,
+      "ngaygiao": "",
+      "trangthaigiacong": false,
+      "thongtindonhang": [{
+        "masoloaithep": "T1",
+        "loaihang": "Tấm - 8 ly : 500*1000",
+        "dai": "",
+        "day": "8",
+        "donvitinh": "cai",
+        "soluong": "2",
+        "a": "500",
+        "b": "1000",
+        "c": "",
+        "a1": "",
+        "cong1": 16000,
+        "cong2": 0,
+        "cong3": 0,
+        "dongia": 502400,
+        "thanhtien": 1004800
+      }]
+    },
+    {
+      "duno": -30144,
+      "tenkhachhang": "le van sinh",
+      "khachhangID": "2",
+      "masodonhang": "011311",
+      "ngaylapdonhang": "13/11/2019",
+      "tongtien": 30144,
+      "thanhtoan": 0,
+      "ngaygiao": "",
+      "trangthaigiacong": false,
+      "vat": false,
+      "thongtindonhang": [{
+          "masoloaithep": "T1",
+          "loaihang": "Tấm - 8 ly : 80*100",
+          "dai": "",
+          "day": "8",
+          "donvitinh": "cai",
+          "soluong": "2",
+          "a": "80",
+          "b": "100",
+          "c": "",
+          "a1": "",
+          "cong1": 15000,
+          "cong2": null,
+          "cong3": null,
+          "dongia": 7536,
+          "thanhtien": 15072
+        },
+        {
+          "masoloaithep": "T1",
+          "loaihang": "Tấm - 8 ly : 80*100",
+          "dai": "",
+          "day": "8",
+          "donvitinh": "cai",
+          "soluong": "2",
+          "a": "80",
+          "b": "100",
+          "c": "",
+          "a1": "",
+          "cong1": 15000,
+          "cong2": null,
+          "cong3": null,
+          "dongia": 7536,
+          "thanhtien": 15072
+        }
+      ]
+    }
+  ]
+}

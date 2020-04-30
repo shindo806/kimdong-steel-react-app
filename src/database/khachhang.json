@@ -1,0 +1,15 @@
+{
+  "khachHang": [{
+      "id": "1",
+      "tenkhachhang": "lam thai son",
+      "khachhangID": "1",
+      "sodienthoai": "0938752570"
+    },
+    {
+      "id": "2",
+      "khachhangID": "2",
+      "tenkhachhang": "le van sinh",
+      "sodienthoai": "09123456"
+    }
+  ]
+}
