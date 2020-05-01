@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+@font-face {
+  src: url('./assets/fonts/Montserrat-Regular.ttf');
+  font-family: Montserrat;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  box-sizing: border-box;
+  background-color: #f9f9f9;
+  overflow: hidden;
+}
+
+body {
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.7;
+}
