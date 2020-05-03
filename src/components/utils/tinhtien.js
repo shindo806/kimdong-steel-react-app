@@ -1,3 +1,7 @@
+import {
+  toNumber
+} from "./xulynumber";
+
 const tinhdongia = (loaihang, thongso) => {
   // loaihang : string. ex: T1, CNC2, ...
   // thongso: Object {day: ..., dai: ..., ...}
@@ -12,9 +16,9 @@ const tinhdongia = (loaihang, thongso) => {
   let b = parseInt(thongso.b);
   let c = parseInt(thongso.c);
   let a1 = parseInt(thongso.a1);
-  let k = parseInt(thongso.cong1);
-  let k2 = parseInt(thongso.cong2);
-  let k3 = parseInt(thongso.cong3);
+  let k = thongso.cong1 !== 0 ? parseInt(toNumber(thongso.cong1)) : 0;
+  let k2 = thongso.cong2 !== 0 ? parseInt(toNumber(thongso.cong2)) : 0;
+  let k3 = thongso.cong3 !== 0 ? parseInt(toNumber(thongso.cong3)) : 0;
 
   switch (loaihang) {
     case "T1":

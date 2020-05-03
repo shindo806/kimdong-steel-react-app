@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import logo from "../../assets/images/logo.svg";
 import Thongtinchung from "./Thongtinchung";
@@ -11,6 +11,7 @@ require("./thanhtoan.css");
 
 export default function thanhtoan(props) {
   const [loaihangRender, setLoaiHangRender] = useState("default"); // State quản lý việc user chọn loaị hàng => render component thông số
+  const [isAddItem, setIsAddItem] = useState(false);
 
   return (
     <div>
@@ -90,7 +91,10 @@ export default function thanhtoan(props) {
                   {/* Thông tin chung của khách mua hàng: Tên, sdt, mã số đơn hàng trong ngày, ngày mua hàng */}
                   <Thongtinchung />
                   {/* Thông tin chi tiết của đơn hàng theo khách hàng xác định */}
-                  <Thongtinchitiet />
+                  <Thongtinchitiet
+                    isAddItem={isAddItem}
+                    setIsAddItem={setIsAddItem}
+                  />
                 </div>
                 {/* Xuất hoá đơn - Lưu đơn hàng */}
                 <Xuathoadon />
@@ -121,22 +125,17 @@ export default function thanhtoan(props) {
                         setLoaiHangRender={setLoaiHangRender}
                       />
                       {/* Nhập thông số loại hàng */}
-                      <Thongso loaihangRender={loaihangRender} />
+                      <Thongso
+                        loaihangRender={loaihangRender}
+                        setLoaiHangRender={setLoaiHangRender}
+                        setIsAddItem={setIsAddItem}
+                      />
                       {/* Thêm - Sửa */}
-                      <div
-                        id="gia-cong"
-                        className={
-                          loaihangRender === "default" ? "close" : "gia-cong"
-                        }
-                      >
-                        <a href="#home" className="ui button blue">
-                          Thêm
-                        </a>
-                      </div>
+
                       <div
                         id="saveEditItem"
                         className="save-edit-item visible"
-                      />
+                      ></div>
                     </div>
                   </div>
                 </div>

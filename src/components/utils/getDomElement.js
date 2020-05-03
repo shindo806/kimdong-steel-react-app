@@ -1,7 +1,5 @@
-let getDomIdElement = (domID) => {
+const getDomIdElement = (domID) => {
   return document.getElementById(domID);
 }
 
-export {
-  getDomIdElement
-};
+export default getDomIdElement;

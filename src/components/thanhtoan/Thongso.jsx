@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 
 import * as congthuc from "../utils/tinhtien";
 
-import * as getDomIDElement from "../utils/getDomElement";
 import xuLyTieuDeLoaiThep from "../utils/xulytieudeloaithep";
+import { formatNumber, toNumber } from "../utils/xulynumber";
+import luuDuLieuTamThoi from "../utils/localStorage";
+import getDomIdElement from "../utils/getDomElement";
+
+import { DebounceInput } from "react-debounce-input";
 
 export default function Thongso(props) {
-  // props.loaihangRender - initial = []
-  const [thongso, setThongSo] = useState([]);
-  const [state, setState] = useState({
+  // props.loaihangRender  = "default"  - thongso initial = []
+  const [loaihang, setLoaiHang] = useState([]);
+  const [thongso1, setThongSo1] = useState({
     dai: "",
     day: "",
     donvitinh: "",
@@ -16,11 +20,13 @@ export default function Thongso(props) {
     b: "",
     c: "",
     a1: "",
+  });
+  const [thongso2, setThongSo2] = useState({
     cong1: 0,
     cong2: 0,
     cong3: 0,
   });
-  const [tinhtien, setTinhTien] = useState({
+  const [thongso3, setThongSo3] = useState({
     dongia: 0,
     soluong: 0,
     thanhtien: 0,
@@ -99,14 +105,15 @@ export default function Thongso(props) {
     return loaithep;
   };
 
-  // Set UI sau moi lan user doi loai thep
+  // Set UI sau moi lan user thay đổi loai thep
   useEffect(() => {
-    // Set tựa đề cho thanh Thông số loại hàng id: thong-so-title
-
-    let newThongSo = handleLoaiHangChange(props.loaihangRender);
-    setThongSo(newThongSo);
+    // Set tựa đề cho thanh Thông số loại hàng: default
+    document.getElementById("thong-so-title").innerHTML =
+      "Thông số loại hàng: ";
+    let newLoaiHang = handleLoaiHangChange(props.loaihangRender);
+    setLoaiHang(newLoaiHang);
     // Reset input field ve default
-    setState({
+    setThongSo1({
       dai: "",
       day: "",
       donvitinh: "",
@@ -114,108 +121,174 @@ export default function Thongso(props) {
       b: "",
       c: "",
       a1: "",
+    });
+    setThongSo2({
       cong1: "",
       cong2: "",
       cong3: "",
     });
-    setTinhTien({
+    setThongSo3({
       dongia: 0,
       soluong: 0,
       thanhtien: 0,
     });
   }, [props.loaihangRender]);
 
-  // Handle input value change
-  const handleInputChange = (elementID) => {
-    let domElementValue = document.querySelector(`#${elementID}`).value;
-    // Make a copy of prev state
-    let newState = { ...state };
-    newState[`${elementID}`] = domElementValue;
-    // Kiểm tra công 1 - 2 - 3 value === '' => set về 0
-    let cong1 = getDomIDElement.getDomIdElement("cong1").value;
-    let cong2 = getDomIDElement.getDomIdElement("cong2").value;
-    let cong3 = getDomIDElement.getDomIdElement("cong3").value;
-    if (cong1 === "") cong1 = 0;
-    if (cong2 === "") cong2 = 0;
-    if (cong3 === "") cong3 = 0;
-    // Update with newState and exact key - value
-    setState({
-      ...newState,
-      cong1,
-      cong2,
-      cong3,
-    });
-    // Truyền state vào cho function xử lý tiêu đề
-    xuLyTieuDeLoaiThep(props.loaihangRender, state);
-
-    // Tinh tien
-    let dongia = congthuc.tinhdongia(props.loaihangRender, state);
-    if (isNaN(dongia)) {
-      setTinhTien((prev) => ({
-        ...prev,
-        dongia: 0,
-      }));
-      return;
-    }
-    // Set state cho tính tiền: đơn giá, thành tiền, số lượng
-    let thanhtien = congthuc.tinhthanhtien(dongia, tinhtien.soluong);
-    setTinhTien((prev) => ({
-      ...prev,
-      dongia,
-      thanhtien,
-    }));
-  };
-
-  const handleTinhTien = (inputType) => {
-    let inputValue = getDomIDElement.getDomIdElement(inputType).value;
-
-    if (inputType === "thanhtien") return;
-    if (inputType === "dongia") {
-      if ((inputValue === "") | (inputValue === 0)) {
-        setTinhTien((prev) => ({
-          ...prev,
-          dongia: 0,
-          thanhtien: 0,
-        }));
-        return;
-      } else {
-        let thanhtien = congthuc.tinhthanhtien(inputValue, tinhtien.soluong);
-        setTinhTien((prev) => ({
-          ...prev,
-          dongia: parseInt(inputValue),
-          thanhtien: thanhtien,
-        }));
-        return;
-      }
-    }
-    if (inputType === "soluong") {
-      if (inputValue === "") {
-        setTinhTien((prev) => ({
-          ...prev,
-          soluong: 0,
-          thanhtien: 0,
-        }));
-        return;
-      } else {
-        let thanhtien = congthuc.tinhthanhtien(tinhtien.dongia, inputValue);
-        setTinhTien((prev) => ({
-          ...prev,
-          soluong: parseInt(inputValue),
-          thanhtien: thanhtien,
-        }));
-      }
-    }
-  };
-
+  // Handle Select tất cả giá trị trong ô input khi user click vào ô input
   const handleFocus = (event) => {
     event.target.select();
   };
 
+  // Trigger when user want to add item to localStorage
+  const handleAddItem = () => {
+    let donhang = {
+      ...thongso1,
+      ...thongso2,
+      ...thongso3,
+      loaihang: document.getElementById("result-loaihang").innerText, // lấy thông tin loại hàng để render
+    };
+    const saveStatus = luuDuLieuTamThoi(donhang);
+    if (saveStatus) {
+      props.setLoaiHangRender("default");
+      // send status back to parent component
+      props.setIsAddItem(true);
+    }
+  };
+
+  // Handle Input Change: 3 type
+  // Type 1: Nhập thông số: dài, dày, a, b, c, a1, đơn vị tính
+  // -> nếu user thay đổi giá trị thì gọi lại hàm tính đơn giá -> tính thành tiền
+  const handleInputChange1 = (elementID) => {
+    // Nhiệm vụ của function này chỉ là setState cho các giá trị elementID thay đổi
+    let elementIDValue = getDomIdElement(elementID).value;
+    // setState using thongso1 state
+    let newState = { ...thongso1 };
+    newState[`${elementID}`] = elementIDValue;
+    setThongSo1(newState);
+    // Render tiêu đề loại thép
+    xuLyTieuDeLoaiThep(props.loaihangRender, newState);
+  };
+  const handleTrigger1 = (event) => {
+    // Nhiệm vụ của function này là trigger function tính đơn giá và thành tiền mỗi lần user thay đổi giá trị các ô type1
+    if (event.key === "Tab") {
+      let thongso = {
+        ...thongso1,
+        ...thongso2,
+      };
+      let dongia = congthuc.tinhdongia(props.loaihangRender, thongso);
+      if (isNaN(dongia)) {
+        dongia = 0;
+      }
+      let thanhtien = congthuc.tinhthanhtien(dongia, thongso3.soluong);
+      setThongSo3((prev) => ({
+        ...prev,
+        dongia: formatNumber(dongia),
+        thanhtien: formatNumber(thanhtien),
+      }));
+    }
+  };
+
+  // Type 2: Nhập thông số: công 1, công 2, công 3
+  // + User nhập 250 press Tab key -> Input value = 250.000
+  // -> nếu user thay đổi giá trị thì gọi lại hàm tính đơn giá -> tính thành tiền
+  const handleInputChange2 = (elementID) => {
+    // Nhiệm vụ của function này chỉ là setState cho các giá trị elementID thay đổi
+    let elementIDValue = getDomIdElement(elementID).value;
+    // setState using thongso1 state
+    let newState = { ...thongso2 };
+    newState[`${elementID}`] = isNaN(parseInt(toNumber(elementIDValue)))
+      ? ""
+      : parseInt(elementIDValue);
+    setThongSo2(newState);
+  };
+
+  const handleTrigger2 = (elementID, event) => {
+    // Nhiệm vụ của function này là trigger function
+    // 1. chuyển định dạng user nhập 15 -> 15.000 khi press tab key
+    // 2. tính đơn giá và thành tiền mỗi lần user thay đổi giá trị các ô type1
+    if (event.key === "Tab") {
+      // 1. 15 -> 15.000
+      let elementIdValue = getDomIdElement(`${elementID}`).value;
+      let formatedNumber = formatNumber(parseInt(elementIdValue * 1000));
+      let newThongSo2 = { ...thongso2 };
+      newThongSo2[`${elementID}`] = formatedNumber;
+      setThongSo2(newThongSo2);
+
+      // 2. tính đơn giá dựa trên newThongSo2 - newest state -> call 2 functions: tinhdongia and tinhthanhtien
+      let thongso = {
+        ...thongso1,
+        ...newThongSo2,
+      };
+      let dongia = congthuc.tinhdongia(props.loaihangRender, thongso);
+      if (isNaN(dongia)) {
+        dongia = 0;
+      }
+      let thanhtien = congthuc.tinhthanhtien(dongia, thongso3.soluong);
+      return setThongSo3((prev) => ({
+        ...prev,
+        dongia: formatNumber(dongia),
+        thanhtien: formatNumber(thanhtien),
+      }));
+    }
+  };
+
+  // Type 3: handle value cho các gía trị: đơn giá, số lượng, thành tiền
+  const handleInputChange3 = (elementID, event) => {
+    // Nhiệm vụ của function này chỉ là setState cho các giá trị elementID thay đổi
+    let elementIDValue = event.target.value;
+    if (elementID === "soluong") {
+      let newState = { ...thongso3 };
+      let thanhtien = congthuc.tinhthanhtien(
+        toNumber(newState.dongia),
+        elementIDValue
+      );
+      let thanhtienFormated = isNaN(thanhtien) ? 0 : formatNumber(thanhtien);
+
+      return setThongSo3((prev) => ({
+        ...prev,
+        soluong: elementIDValue,
+        thanhtien: thanhtienFormated,
+      }));
+    }
+
+    // setState using thongso1 state
+    let newState = { ...thongso3 };
+    if (elementID === "soluong") {
+      let thanhtien = congthuc.tinhthanhtien(newState.dongia, elementIDValue);
+
+      setThongSo3((prev) => ({
+        ...prev,
+        soluong: elementIDValue,
+        thanhtien,
+      }));
+    }
+    newState[`${elementID}`] =
+      elementIDValue === "" ? "" : parseInt(elementIDValue);
+    setThongSo3(newState);
+  };
+
+  const handleTrigger3 = (elementID, event) => {
+    // Nhiệm vụ của function này là trigger function
+    // 1. chuyển định dạng user nhập 15 -> 15.000 khi press tab key
+    // 2. tính đơn giá và thành tiền mỗi lần user thay đổi giá trị các ô type1
+    if (elementID === "dongia") {
+      if ((event.key === "Tab") | (event.key === "Enter")) {
+        let dongia = getDomIdElement(`${elementID}`).value;
+        let dongiaFormated = formatNumber(dongia * 1000);
+        let thanhtien = congthuc.tinhthanhtien(dongia * 1000, thongso3.soluong);
+        return setThongSo3((prev) => ({
+          ...prev,
+          dongia: dongiaFormated,
+          thanhtien: formatNumber(thanhtien),
+        }));
+      }
+    }
+  };
   return (
     <>
       <div
         id="thong-so"
-        className={thongso.length === 0 ? "close" : "thong-so"}
+        className={loaihang.length === 0 ? "close" : "thong-so"}
       >
         <div id="thong-so-title" className="thong-so-title">
           Thông số loại hàng:
@@ -223,39 +296,39 @@ export default function Thongso(props) {
         <div className="ui form thong-so-1">
           <div className="fields">
             <div
-              className={thongso.includes("q") ? "field chieu-dai" : "close"}
+              className={loaihang.includes("q") ? "field chieu-dai" : "close"}
             >
               <label>Chiều dài - q</label>
               <input
-                value={state.dai}
+                value={thongso1.dai}
                 id="dai"
                 type="text"
                 placeholder="Chiều dài"
-                onChange={() => handleInputChange("dai")}
-                onKeyUp={() => handleInputChange("dai")}
+                onChange={() => handleInputChange1("dai")}
+                onKeyDown={(e) => handleTrigger1(e)}
                 onFocus={handleFocus}
               />
             </div>
             <div className="field">
               <label>Độ dày - m</label>
               <input
-                value={state.day}
+                value={thongso1.day}
                 id="day"
                 type="text"
                 placeholder="Độ dày"
-                onChange={() => handleInputChange("day")}
-                onKeyUp={() => handleInputChange("day")}
+                onChange={() => handleInputChange1("day")}
+                onKeyDown={(e) => handleTrigger1(e)}
                 onFocus={handleFocus}
               />
             </div>
             <div className="field">
               <label>Đơn vị tính</label>
               <input
-                value={state.donvitinh}
+                value={thongso1.donvitinh}
                 id="donvitinh"
                 type="text"
                 placeholder="Đơn vị tính"
-                onChange={() => handleInputChange("donvitinh")}
+                onChange={() => handleInputChange1("donvitinh")}
                 onFocus={handleFocus}
               />
             </div>
@@ -266,47 +339,48 @@ export default function Thongso(props) {
             <div className="field a">
               <label>a</label>
               <input
-                value={state.a}
+                value={thongso1.a}
                 id="a"
                 type="text"
                 placeholder="Cạnh a"
-                onChange={() => handleInputChange("a")}
-                onKeyUp={() => handleInputChange("a")}
+                onChange={() => handleInputChange1("a")}
+                onKeyDown={(e) => handleTrigger1(e)}
                 onFocus={handleFocus}
               />
             </div>
-            <div className={thongso.includes("b") ? "field b" : "close"}>
+            <div className={loaihang.includes("b") ? "field b" : "close"}>
               <label>b</label>
               <input
-                value={state.b}
+                value={thongso1.b}
                 id="b"
                 type="text"
                 placeholder="Cạnh b"
-                onChange={() => handleInputChange("b")}
-                onKeyUp={() => handleInputChange("b")}
-              />
-            </div>
-            <div className={thongso.includes("c") ? "field c" : "close"}>
-              <label>c</label>
-              <input
-                value={state.c}
-                id="c"
-                type="text"
-                placeholder="Cạnh c"
-                onChange={() => handleInputChange("c")}
-                onKeyUp={() => handleInputChange("c")}
+                onChange={() => handleInputChange1("b")}
+                onKeyDown={(e) => handleTrigger1(e)}
                 onFocus={handleFocus}
               />
             </div>
-            <div className={thongso.includes("a1") ? "field a1" : "close"}>
+            <div className={loaihang.includes("c") ? "field c" : "close"}>
+              <label>c</label>
+              <input
+                value={thongso1.c}
+                id="c"
+                type="text"
+                placeholder="Cạnh c"
+                onChange={() => handleInputChange1("c")}
+                onKeyDown={(e) => handleTrigger1(e)}
+                onFocus={handleFocus}
+              />
+            </div>
+            <div className={loaihang.includes("a1") ? "field a1" : "close"}>
               <label>a1</label>
               <input
-                value={state.a1}
+                value={thongso1.a1}
                 id="a1"
                 type="text"
                 placeholder="Cạnh a1"
-                onChange={() => handleInputChange("a1")}
-                onKeyUp={() => handleInputChange("a1")}
+                onChange={() => handleInputChange1("a1")}
+                onKeyDown={(e) => handleTrigger1(e)}
                 onFocus={handleFocus}
               />
             </div>
@@ -317,8 +391,9 @@ export default function Thongso(props) {
             <div className="field">
               <label>Công 1</label>
               <input
-                value={state.cong1}
-                onChange={() => handleInputChange("cong1")}
+                value={thongso2.cong1}
+                onChange={() => handleInputChange2("cong1")}
+                onKeyDown={(e) => handleTrigger2("cong1", e)}
                 onFocus={handleFocus}
                 id="cong1"
                 type="text"
@@ -328,8 +403,9 @@ export default function Thongso(props) {
             <div className="field">
               <label>Công 2</label>
               <input
-                value={state.cong2}
-                onChange={() => handleInputChange("cong2")}
+                value={thongso2.cong2}
+                onChange={() => handleInputChange2("cong2")}
+                onKeyDown={(e) => handleTrigger2("cong2", e)}
                 onFocus={handleFocus}
                 id="cong2"
                 type="text"
@@ -339,8 +415,9 @@ export default function Thongso(props) {
             <div className="field">
               <label>Công 3</label>
               <input
-                value={state.cong3}
-                onChange={() => handleInputChange("cong3")}
+                value={thongso2.cong3}
+                onChange={() => handleInputChange2("cong3")}
+                onKeyDown={(e) => handleTrigger2("cong3", e)}
                 onFocus={handleFocus}
                 id="cong3"
                 type="text"
@@ -354,8 +431,9 @@ export default function Thongso(props) {
             <div className="field">
               <label>Đơn giá</label>
               <input
-                value={tinhtien.dongia}
-                onChange={() => handleTinhTien("dongia")}
+                value={thongso3.dongia}
+                onChange={(e) => handleInputChange3("dongia", e)}
+                onKeyDown={(e) => handleTrigger3("dongia", e)}
                 onFocus={handleFocus}
                 id="dongia"
                 type="text"
@@ -365,9 +443,9 @@ export default function Thongso(props) {
             <div className="field">
               <label>Số lượng</label>
               <input
-                value={tinhtien.soluong}
-                onChange={() => handleTinhTien("soluong")}
-                onKeyUp={() => handleTinhTien("soluong")}
+                value={thongso3.soluong}
+                onChange={(e) => handleInputChange3("soluong", e)}
+                // onKeyDown={(e) => handleTrigger3("soluong", e)}
                 onFocus={handleFocus}
                 id="soluong"
                 type="text"
@@ -377,8 +455,8 @@ export default function Thongso(props) {
             <div className="field">
               <label>Thành tiền</label>
               <input
-                value={tinhtien.thanhtien}
-                onChange={() => handleTinhTien("thanhtien")}
+                value={thongso3.thanhtien}
+                onChange={(e) => handleInputChange3("thanhtien", e)}
                 id="thanhtien"
                 type="text"
                 placeholder="Thành tiền"
@@ -387,6 +465,14 @@ export default function Thongso(props) {
             </div>
           </div>
         </div>
+      </div>
+      <div
+        id="gia-cong"
+        className={loaihang.length === 0 ? "close" : "gia-cong"}
+      >
+        <a href="#home" className="ui button blue" onClick={handleAddItem}>
+          Thêm
+        </a>
       </div>
     </>
   );

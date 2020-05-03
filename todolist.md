@@ -2,13 +2,16 @@
 
 Thanh Toan page
 
-- Viet function render loai hang (select)
-  -- Phần render component Thông số
-  => sử dụng const [thongso, setThongSo] = useState('default')
-  => useEffect (instead of componentDidMout or componentDidUpdate) -> setThongSo
-  => Create a function to handle className for every field
-  in thongso fields
 - Tach navbar thanh component rieng
+
+- Validate input value:
+  -- Empty, string, number
+  -- Handle việc user nhập 205,5 -> 205.500
+
+### Production stage
+
+- Remove react dev tools in public/electron.js
+- Turn off auto open devtools
 
 ### Kinh nghiệm của bản thân khi làm việc với React functional component
 

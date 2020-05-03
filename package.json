@@ -27,6 +27,7 @@
     "electron-is-dev": "^1.0.1",
     "lowdb": "^1.0.0",
     "react": "^16.8.3",
+    "react-debounce-input": "^3.2.2",
     "react-dom": "^16.8.3",
     "react-scripts": "2.1.5",
     "shortid": "^2.2.15"
@@ -58,6 +59,8 @@
     "concurrently": "^4.1.0",
     "electron": "^4.0.6",
     "electron-builder": "^20.38.5",
+    "electron-devtools-installer": "^3.0.0",
+    "electron-react-devtools": "^0.5.3",
     "typescript": "^3.3.3333",
     "wait-on": "^3.2.0"
   }

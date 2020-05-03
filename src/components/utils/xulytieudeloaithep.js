@@ -3,29 +3,6 @@ function xuLyTieuDeLoaiThep(loaihang, thongso) {
   // thongso: Object {a: ..., b: ..., m : ...}
   // => render vao ID: thong-so-title
   // dai: "",    day: "",    donvitinh: "",    a: "",    b: "",    c: "",    a1: "",    cong1: 0,    cong2: 0, cong3: 0,
-  const loaihangObj = {
-    "T1": "Tấm - m ly: a*b",
-    "T2": "Tấm - m ly: a*b-cØ",
-    "T3": "Tấm - m ly: (a-c)*b-Vuông",
-    "T4": "Tấm - m ly: (a-c)*b-Cân",
-    "T5": "Tấm - m ly: Øa",
-    "T6": "Tấm - m ly: Øa/Øb-Lấy ruột",
-    "T7": "Tấm - m ly: Øa/Øb-Trừ ruột",
-    "T8": "Tấm - m ly: Mẫu",
-    "C1": "Chấn - m ly: U/a*b*c",
-    "C2": "Chấn - m ly: U/a*b*a",
-    "C3": "Chấn - m ly: L/a*b",
-    "C4": "Chấn - m ly: C/a*a1*b*a1*a",
-    "C5": "Chấn - m ly: Z/a*b*c",
-    "C6": "Chấn - m ly: Khay 4 cạnh/a*b*c",
-    "C7": "Chấn - m ly: Mẫu chấn",
-    "Cu1": "Cuốn - m ly: Ống Øa",
-    "Cu2": "Cuốn - m ly: Nón Ø(a-b)",
-    "Cu3": "Cuốn - m ly: Vít tải Øa*a1*b*c",
-    "CNC1": "CNC - m ly: Laser/a*b",
-    "CNC2": "CNC - m ly: Plasma/a*b",
-    "CNC3": "CNC - m ly: Oxy-gas/a*b",
-  };
 
   let m = thongso.day === "" ? 0 : thongso.day;
   let a = thongso.a === "" ? 0 : thongso.a;
@@ -33,21 +10,84 @@ function xuLyTieuDeLoaiThep(loaihang, thongso) {
   let c = thongso.c === "" ? 0 : thongso.c;
   let a1 = thongso.a1 === "" ? 0 : thongso.a1;
 
+  let renderEl = document.getElementById('thong-so-title');
+  // reset before each render time
+  renderEl.innerHTML = '';
+
   let result = '';
   // Regex replace m - a - b ...
   switch (loaihang) {
     case "T1":
-      let loaiHangString = loaihangObj[loaihang];
-      result += loaiHangString.replace(/( m )/g, ` ${m} `).replace(/(a)/g, a).replace(/(b)/g, b);
+      result = `Tấm - ${m} ly: ${a}*${b}`;
       break;
-
+    case "T2":
+      result = `Tấm - ${m} ly: ${a}*${b}-${c}Ø`;
+      break;
+    case "T3":
+      result = `Tấm - ${m} ly: (${a}-${c})*${b}-Vuông`
+      break;
+    case "T4":
+      result = `Tấm - ${m} ly: (${a}-${c})*${b}-Cân`
+      break;
+    case "T5":
+      result = `Tấm - ${m} ly: Ø${a}`
+      break;
+    case "T6":
+      result = `Tấm - ${m} ly: Ø${a}/Ø${b} - Lấy ruột`
+      break;
+    case "T7":
+      result = `Tấm - ${m} ly: Ø${a}/Ø${b} - Trừ ruột`
+      break;
+    case "T8":
+      result = `Tấm - ${m} ly: Mẫu`;
+      break;
+    case "C1":
+      result = `Chấn - ${m} ly: U/${a}*${b}*${c}`
+      break;
+    case "C2":
+      result = `Chấn - ${m} ly: U/${a}*${b}*${a}`
+      break;
+    case "C3":
+      result = `Chấn - ${m} ly: L/${a}*${b}`
+      break;
+    case "C4":
+      // Special
+      result = `Chấn - ${m} ly: C/${a}*${a1}*${b}*${a1}*${a}`;
+      break;
+    case "C5":
+      result = `Chấn - ${m} ly: Z/${a}*${b}*${c}`
+      break;
+    case "C6":
+      // Special 
+      result += `Chấn - ${m} ly: Khay 4 cạnh/${a}*${b}*${c}`;
+      break;
+    case "C7":
+      result = `Chấn - ${m} ly: Mẫu chấn`
+      break;
+    case "Cu1":
+      result = `Cuốn - ${m} ly: Ống Ø${a}`
+      break;
+    case "Cu2":
+      result = `Cuốn - ${m} ly: Nón Ø(${a}-${b})`
+      break;
+    case "Cu3":
+      // Special
+      result = `Cuốn - ${m} ly: Vít tải Ø${a}*${a1}*${b}*${c}`;
+      break;
+    case "CNC1":
+      result = `CNC - ${m} ly: Laser/${a}*${b}`
+      break;
+    case "CNC2":
+      result = `CNC - ${m} ly: Plasma/${a}*${b}`;
+      break;
+    case "CNC3":
+      result = `CNC - ${m} ly: Oxy-gas/${a}*${b}`
+      break;
     default:
       break;
   }
-  let renderEl = document.getElementById('thong-so-title');
-  // reset before each render time
-  renderEl.innerHTML = '';
-  renderEl.innerHTML = `<span>Thông số loại hàng:   ${result}</span>`;
+
+  renderEl.innerHTML = `<span>Thông số loại hàng:</span><span id="result-loaihang">   ${result}</span>`;
 
 }
 

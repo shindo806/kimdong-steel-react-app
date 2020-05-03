@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Loaihang(props) {
+  const [loaihang, setLoaiHang] = useState("default");
   const onHandleSelect = () => {
     const selectElement = document.querySelector("#loai-hang");
     props.setLoaiHangRender(selectElement.value);
   };
+
+  useEffect(() => {
+    setLoaiHang(props.loaihangRender);
+  }, [props.loaihangRender]);
   return (
     <>
       <div className="loai-hang">
         <select
+          value={loaihang}
           id="loai-hang"
           className="ui search dropdown"
           onChange={onHandleSelect}

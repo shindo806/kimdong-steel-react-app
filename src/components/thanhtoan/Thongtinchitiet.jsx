@@ -1,6 +1,60 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { toNumber, formatNumber } from "../utils/xulynumber";
 
-export default function Thongtinchitiet() {
+function Row(props) {
+  return (
+    <tr className="table-row">
+      <td className="table-cell align-center">{props.index + 1}</td>
+      <td className="table-cell align-left">{props.item.loaihang}</td>
+      <td className="table-cell align-center">{props.item.day}</td>
+      <td className="table-cell align-center">{props.item.donvitinh}</td>
+      <td className="table-cell align-center">{props.item.soluong}</td>
+      <td className="table-cell align-right">{props.item.soluong}</td>
+      <td className="table-cell align-right">{props.item.thanhtien}</td>
+    </tr>
+  );
+}
+
+export default function Thongtinchitiet(props) {
+  const [data, setData] = useState(() => {
+    return localStorage.getItem("tempData")
+      ? JSON.parse(localStorage.getItem("tempData"))
+      : [];
+  });
+  useEffect(() => {
+    let dataFromLocalStorage = JSON.parse(localStorage.getItem("tempData"));
+    if (props.isAddItem) {
+      setData(dataFromLocalStorage);
+      // send back false status for isAddItem
+      props.setIsAddItem(false);
+    }
+  }, [props.isAddItem]);
+  const Rows =
+    data.length === 0 ? (
+      <tr className="table-row">
+        <td className="table-cell align-center">1</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    ) : (
+      data.map((item, index) => {
+        return <Row item={item} index={index} key={index} />;
+      })
+    );
+  const tongThanhTien =
+    data.length === 0
+      ? ""
+      : data.length === 1
+      ? data[0].thanhtien
+      : formatNumber(
+          data.reduce(
+            (arr, curr) => toNumber(arr.thanhtien) + toNumber(curr.thanhtien)
+          )
+        );
   return (
     <>
       <div className="row">
@@ -24,17 +78,9 @@ export default function Thongtinchitiet() {
               </thead>
               {/* Render data here */}
               <tbody>
-                <tr className="table-row" data-key={1}>
-                  <td className="table-cell align-center">1</td>
-                  <td className="table-cell align-left">
-                    Tấm - 8 ly : 500*1000
-                  </td>
-                  <td className="table-cell align-center">8</td>
-                  <td className="table-cell align-center">Cái</td>
-                  <td className="table-cell align-center">10</td>
-                  <td className="table-cell align-right">100.000</td>
-                  <td className="table-cell align-right">1.000.000</td>
-                </tr>
+                {/* Data loop */}
+                {Rows}
+                {/* Tổng thành tiền, thanh toán */}
                 <tr className="table-row">
                   <td colSpan={6} className="table-cell align-center">
                     Tổng
@@ -44,7 +90,7 @@ export default function Thongtinchitiet() {
                     className="table-cell align-right"
                     id="thanhtien-render"
                   >
-                    1.000.000.000
+                    {tongThanhTien}
                   </td>
                 </tr>
                 <tr className="table=row">
