@@ -7,8 +7,6 @@ import { formatNumber, toNumber } from "../utils/xulynumber";
 import luuDuLieuTamThoi from "../utils/localStorage";
 import getDomIdElement from "../utils/getDomElement";
 
-import { DebounceInput } from "react-debounce-input";
-
 export default function Thongso(props) {
   // props.loaihangRender  = "default"  - thongso initial = []
   const [loaihang, setLoaiHang] = useState([]);

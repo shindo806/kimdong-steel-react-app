@@ -6,6 +6,7 @@ import Thongtinchitiet from "./Thongtinchitiet";
 import Xuathoadon from "./Xuathoadon";
 import Loaihang from "./Loaihang";
 import Thongso from "./Thongso";
+import TableEditablePage from "./Table";
 
 require("./thanhtoan.css");
 
@@ -91,10 +92,11 @@ export default function thanhtoan(props) {
                   {/* Thông tin chung của khách mua hàng: Tên, sdt, mã số đơn hàng trong ngày, ngày mua hàng */}
                   <Thongtinchung />
                   {/* Thông tin chi tiết của đơn hàng theo khách hàng xác định */}
-                  <Thongtinchitiet
+                  {/* <Thongtinchitiet
                     isAddItem={isAddItem}
                     setIsAddItem={setIsAddItem}
-                  />
+                  /> */}
+                  <TableEditablePage />
                 </div>
                 {/* Xuất hoá đơn - Lưu đơn hàng */}
                 <Xuathoadon />
