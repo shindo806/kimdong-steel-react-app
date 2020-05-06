@@ -2,18 +2,22 @@ import React, { useState, useEffect } from "react";
 
 import logo from "../../assets/images/logo.svg";
 import Thongtinchung from "./Thongtinchung";
-import Thongtinchitiet from "./Thongtinchitiet";
+// import Thongtinchitiet from "./Thongtinchitiet";
 import Xuathoadon from "./Xuathoadon";
 import Loaihang from "./Loaihang";
 import Thongso from "./Thongso";
-import TableEditablePage from "./Table";
+import TableRender from "./Table";
 
 require("./thanhtoan.css");
 
 export default function thanhtoan(props) {
   const [loaihangRender, setLoaiHangRender] = useState("default"); // State quản lý việc user chọn loaị hàng => render component thông số
   const [isAddItem, setIsAddItem] = useState(false);
-
+  const [data, setData] = useState(() =>
+    localStorage.getItem("tempData")
+      ? JSON.parse(localStorage.getItem("tempData"))
+      : []
+  );
   return (
     <div>
       {/* Navbar */}
@@ -96,7 +100,7 @@ export default function thanhtoan(props) {
                     isAddItem={isAddItem}
                     setIsAddItem={setIsAddItem}
                   /> */}
-                  <TableEditablePage />
+                  <TableRender data={data} />
                 </div>
                 {/* Xuất hoá đơn - Lưu đơn hàng */}
                 <Xuathoadon />
