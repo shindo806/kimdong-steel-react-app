@@ -1,3 +1,8 @@
+import {
+  formatNumber,
+  toNumber
+} from '../components/utils/xulynumber';
+
 const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
 
@@ -12,7 +17,8 @@ db.defaults({
   })
   .write()
 
-// get data from db.json
+// Utils 
+
 
 const donhangSampleData = [{
     "duno": -1004800,
@@ -153,17 +159,35 @@ const muahangSampleData = [{
   }
 ]
 const getAllData = () => {
-  console.log(db.read().value())
+
   return db.read().value();
 };
 
 
-const saveDonHangData = () => {
-  for (const donhang of donhangSampleData) {
-    db.get('donhang').push(donhang).write();
-  }
+const postLuuDonHang = (donhang) => {
+  // Chung: 
+  //  -- Xử lý mã số đơn hàng
+  //  -- Lưu ngày lập đơn hàng bằng Lib Momentjs
+  //  -- Chuyển dữ liệu số về type number
+
+  // TH1: Tồn tại khách hàng 
+  //    + Sử dụng lại "khachhangID", "tenkhachhang" trong đơn hàng -> lấy từ 
+  //       khachhangData 
+
+  // TH2: Không tồn tại khách hàng 
+  db.get('donhang').push(donhang).write();
+  return true;
 }
+
+// Khach hang
+const getKhachHang = () => {
+  let khachhangData = db.get('khachhang').value();
+  return khachhangData;
+}
+
+
 export {
   getAllData,
-  saveDonHangData
+  postLuuDonHang,
+  getKhachHang
 };

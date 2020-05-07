@@ -1,6 +1,34 @@
 import React from "react";
+import { postLuuDonHang, getAllData } from "../../dataAPI/connectDB";
 
-export default function Xuathoadon() {
+var moment = require("moment");
+export default function Xuathoadon(props) {
+  const luuDonHang = () => {
+    let tongtien = document.querySelector("#thanhtien-render").innerText;
+    let thanhtoan = document.querySelector("#thanhtoan-render").value;
+    let duno = document.querySelector("#duno-render").innerText;
+    let khachhangInfo = JSON.parse(localStorage.getItem("tempKhachHangData")); // {ten, khachhangID, sdt}
+    // remove sodienthoai, ko can luu sdt vao donhang -> luu vao khachhang
+    delete khachhangInfo.sodienthoai;
+    let masodonhang = document.querySelector("#don-hang-id").innerText;
+    let ngaylapdonhang = moment().format("LLLL");
+    let trangthaigiacong = false;
+    let tatcadonhang = JSON.parse(localStorage.getItem("tempData"));
+    let donhang = {
+      duno,
+      tongtien,
+      thanhtoan,
+      ...khachhangInfo,
+      masodonhang,
+      ngaylapdonhang,
+      trangthaigiacong,
+      thongtindonhang: tatcadonhang,
+    };
+    let saveStatus = postLuuDonHang(donhang);
+    console.log(saveStatus);
+    let allData = getAllData();
+    console.log(allData);
+  };
   return (
     <>
       <div className="row">
@@ -13,7 +41,11 @@ export default function Xuathoadon() {
             >
               Xuất và lưu hóa đơn
             </button>
-            <button title="Lưu lại đơn hàng" className="ui button primary">
+            <button
+              title="Lưu lại đơn hàng"
+              className="ui button primary"
+              onClick={luuDonHang}
+            >
               Lưu đơn hàng
             </button>
             <button
@@ -24,7 +56,7 @@ export default function Xuathoadon() {
               Xuất hóa đơn
             </button>
             <button
-              title="Xóa bỏ đơn hàng vừa đặt
+              title="Xóa bỏ đơn hàng vừa đặt.
                   Lưu ý: Không thể lấy lại được đơn hàng đã xóa!"
               className="ui button red"
             >

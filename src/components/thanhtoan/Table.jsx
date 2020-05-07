@@ -1,185 +1,313 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import ContentEditable from "react-contenteditable";
-import { Table, Button } from "semantic-ui-react";
+import { Table } from "semantic-ui-react";
 
 import { toNumber, formatNumber } from "../utils/xulynumber";
 
 const TableRender = (props) => {
-  const renderEl = props.data.map((row, i) => {
-    return (
-      <Table.Row key={i + 1}>
-        <Table.Cell textAlign="center" className="narrow">
-          {i + 1}
-        </Table.Cell>
-        <Table.Cell textAlign="left" className="narrow">
-          <ContentEditable
-            html={row.loaihang}
-            data-column="item"
-            data-row={i}
-            className="content-editable"
-            // onKeyPress={this.disableNewlines}
-            // onPaste={this.pasteAsPlainText}
-            // onFocus={this.highlightAll}
-            // onChange={this.handleContentEditableUpdate}
-            // onDoubleClick={this.handleContentEditableUpdate}
-          />
-        </Table.Cell>
-        <Table.Cell textAlign="center" className="narrow">
-          <ContentEditable
-            html={row.day}
-            data-column="item"
-            data-row={i}
-            className="content-editable"
-            // onKeyPress={this.disableNewlines}
-            // onPaste={this.pasteAsPlainText}
-            // onFocus={this.highlightAll}
-            // onChange={this.handleContentEditableUpdate}
-            // onDoubleClick={this.handleContentEditableUpdate}
-          />
-        </Table.Cell>
-        <Table.Cell textAlign="center" className="narrow">
-          <ContentEditable
-            html={row.donvitinh}
-            data-column="item"
-            data-row={i}
-            className="content-editable"
-            // onKeyPress={this.disableNewlines}
-            // onPaste={this.pasteAsPlainText}
-            // onFocus={this.highlightAll}
-            // onChange={this.handleContentEditableUpdate}
-            // onDoubleClick={this.handleContentEditableUpdate}
-          />
-        </Table.Cell>
-        <Table.Cell textAlign="center" className="narrow">
-          <ContentEditable
-            html={row.soluong}
-            data-column="item"
-            data-row={i}
-            className="content-editable"
-            // onKeyPress={this.disableNewlines}
-            // onPaste={this.pasteAsPlainText}
-            // onFocus={this.highlightAll}
-            // onChange={this.handleContentEditableUpdate}
-            // onDoubleClick={this.handleContentEditableUpdate}
-          />
-        </Table.Cell>
-        <Table.Cell textAlign="right" className="narrow">
-          <ContentEditable
-            html={row.dongia}
-            data-column="item"
-            data-row={i}
-            className="content-editable"
-            // onKeyPress={this.disableNewlines}
-            // onPaste={this.pasteAsPlainText}
-            // onFocus={this.highlightAll}
-            // onChange={this.handleContentEditableUpdate}
-            // onDoubleClick={this.handleContentEditableUpdate}
-          />
-        </Table.Cell>
-        <Table.Cell textAlign="right" className="narrow">
-          <ContentEditable
-            html={row.thanhtien}
-            data-column="item"
-            data-row={i}
-            className="content-editable"
-            // onKeyPress={this.disableNewlines}
-            // onPaste={this.pasteAsPlainText}
-            // onFocus={this.highlightAll}
-            // onChange={this.handleContentEditableUpdate}
-            // onDoubleClick={this.handleContentEditableUpdate}
-          />
-        </Table.Cell>
-      </Table.Row>
-    );
-  });
-  let thanhtien = props.data.reduce((arr, curr) => {
-    return toNumber(arr.thanhtien) + toNumber(curr.thanhtien);
-  });
-  let thanhtienRender = (
-    <Table.Row key={thanhtien}>
-      <Table.Cell textAlign="center" colSpan="6" className="narrow">
-        Tổng
-      </Table.Cell>
-      <Table.Cell textAlign="right" className="narrow">
-        <ContentEditable
-          html={formatNumber(thanhtien)}
-          data-column="item"
-          data-row={26}
-          className="content-editable"
-          // onKeyPress={this.disableNewlines}
-          // onPaste={this.pasteAsPlainText}
-          // onFocus={this.highlightAll}
-          // onChange={this.handleContentEditableUpdate}
-          // onDoubleClick={this.handleContentEditableUpdate}
-        />
-      </Table.Cell>
-    </Table.Row>
-  );
-  let thanhtoanRender = (
-    <Table.Row key={thanhtien + 1}>
-      <Table.Cell textAlign="center" colSpan="6" className="narrow">
-        Thanh toán
-      </Table.Cell>
-      <Table.Cell textAlign="right" className="narrow">
-        <ContentEditable
-          html={"0"}
-          data-column="item"
-          data-row={27}
-          className="content-editable"
-          // onKeyPress={this.disableNewlines}
-          // onPaste={this.pasteAsPlainText}
-          // onFocus={this.highlightAll}
-          // onChange={this.handleContentEditableUpdate}
-          // onDoubleClick={this.handleContentEditableUpdate}
-        />
-      </Table.Cell>
-    </Table.Row>
-  );
+  const [renderEl, setRenderEl] = useState("");
+  const [thanhtien, setThanhTien] = useState(0);
+  const [thanhtoan, setThanhToan] = useState(0);
+  const [duno, setDuNo] = useState(0);
 
-  let dunoRener = (
-    <Table.Row key={thanhtien + 2}>
-      <Table.Cell textAlign="center" colSpan="6" className="narrow">
-        Dư nợ
-      </Table.Cell>
-      <Table.Cell textAlign="right" className="narrow">
-        <ContentEditable
-          html={"0"}
-          data-column="item"
-          data-row={28}
-          className="content-editable"
-          // onKeyPress={this.disableNewlines}
-          // onPaste={this.pasteAsPlainText}
-          // onFocus={this.highlightAll}
-          // onChange={this.handleContentEditableUpdate}
-          // onDoubleClick={this.handleContentEditableUpdate}
-        />
-      </Table.Cell>
-    </Table.Row>
-  );
+  useEffect(() => {
+    let thanhtienTotal = 0;
+    for (let i = 0; i < props.data.length; i++) {
+      thanhtienTotal += toNumber(props.data[i].thanhtien);
+    }
+    setThanhTien(thanhtienTotal);
+    setDuNo(thanhtoan - thanhtienTotal);
+  }, [props]);
+
+  function createRenderEl() {
+    // Table
+    const renderEl = props.data.map((row, i) => {
+      return (
+        <Table.Row key={i + 1}>
+          <Table.Cell textAlign="center" className="narrow">
+            {i + 1}
+          </Table.Cell>
+          <Table.Cell textAlign="left" className="narrow">
+            <ContentEditable
+              html={row.loaihang}
+              data-column="item"
+              data-row={i}
+              className="content-editable"
+              // onKeyPress={this.disableNewlines}
+              // onPaste={this.pasteAsPlainText}
+              // onFocus={this.highlightAll}
+              // onChange={this.handleContentEditableUpdate}
+              // onDoubleClick={this.handleContentEditableUpdate}
+            />
+          </Table.Cell>
+          <Table.Cell textAlign="center" className="narrow">
+            <ContentEditable
+              html={row.day}
+              data-column="item"
+              data-row={i}
+              className="content-editable"
+              // onKeyPress={this.disableNewlines}
+              // onPaste={this.pasteAsPlainText}
+              // onFocus={this.highlightAll}
+              // onChange={this.handleContentEditableUpdate}
+              // onDoubleClick={this.handleContentEditableUpdate}
+            />
+          </Table.Cell>
+          <Table.Cell textAlign="center" className="narrow">
+            <ContentEditable
+              html={row.donvitinh}
+              data-column="item"
+              data-row={i}
+              className="content-editable"
+              // onKeyPress={this.disableNewlines}
+              // onPaste={this.pasteAsPlainText}
+              // onFocus={this.highlightAll}
+              // onChange={this.handleContentEditableUpdate}
+              // onDoubleClick={this.handleContentEditableUpdate}
+            />
+          </Table.Cell>
+          <Table.Cell textAlign="center" className="narrow">
+            <ContentEditable
+              html={row.soluong}
+              data-column="item"
+              data-row={i}
+              className="content-editable"
+              // onKeyPress={this.disableNewlines}
+              // onPaste={this.pasteAsPlainText}
+              // onFocus={this.highlightAll}
+              // onChange={this.handleContentEditableUpdate}
+              // onDoubleClick={this.handleContentEditableUpdate}
+            />
+          </Table.Cell>
+          <Table.Cell textAlign="right" className="narrow">
+            <ContentEditable
+              html={row.dongia}
+              data-column="item"
+              data-row={i}
+              className="content-editable"
+              // onKeyPress={this.disableNewlines}
+              // onPaste={this.pasteAsPlainText}
+              // onFocus={this.highlightAll}
+              // onChange={this.handleContentEditableUpdate}
+              // onDoubleClick={this.handleContentEditableUpdate}
+            />
+          </Table.Cell>
+          <Table.Cell textAlign="right" className="narrow">
+            {row.thanhtien}
+          </Table.Cell>
+        </Table.Row>
+      );
+    });
+    setRenderEl(renderEl);
+  }
+
+  useEffect(() => {
+    createRenderEl();
+  }, [props.data]);
+  // Utils
+  const addRow = () => {
+    const { store, row } = this.state;
+    const trimSpaces = (string) => {
+      return string
+        .replace(/&nbsp;/g, "")
+        .replace(/&amp;/g, "&")
+        .replace(/&gt;/g, ">")
+        .replace(/&lt;/g, "<");
+    };
+  };
+
+  //   const trimmedRow = {
+  //     ...row,
+  //     item: trimSpaces(row.item),
+  //   };
+
+  //   row.id = store.length + 1;
+
+  //   this.setState({
+  //     store: [...store, trimmedRow],
+  //     row: this.initialState.row,
+  //   });
+
+  //   this.firstEditable.current.focus();
+  // };
+
+  // const deleteRow = (id) => {
+  //   const { store } = this.state;
+
+  //   this.setState({
+  //     store: store.filter((item) => id !== item.id),
+  //   });
+  // };
+
+  // const disableNewlines = (event) => {
+  //   const keyCode = event.keyCode || event.which;
+
+  //   if (keyCode === 13) {
+  //     event.returnValue = false;
+  //     if (event.preventDefault) event.preventDefault();
+  //   }
+  // };
+
+  // const validateNumber = (event) => {
+  //   const keyCode = event.keyCode || event.which;
+  //   const string = String.fromCharCode(keyCode);
+  //   const regex = /[0-9,]|\./;
+
+  //   if (!regex.test(string)) {
+  //     event.returnValue = false;
+  //     if (event.preventDefault) event.preventDefault();
+  //   }
+  // };
+
+  // const pasteAsPlainText = (event) => {
+  //   event.preventDefault();
+
+  //   const text = event.clipboardData.getData("text/plain");
+  //   document.execCommand("insertHTML", false, text);
+  // };
+
+  const highlightAll = () => {
+    setTimeout(() => {
+      document.execCommand("selectAll", false, null);
+    }, 0);
+  };
+
+  // const handleContentEditable = (event) => {
+  //   const { row } = this.state;
+  //   const {
+  //     currentTarget: {
+  //       dataset: { column },
+  //     },
+  //     target: { value },
+  //   } = event;
+
+  //   this.setState({ row: { ...row, [column]: value } });
+  // };
+
+  // const handleContentEditableUpdate = (event) => {
+  //   const { store } = this.state;
+
+  //   const {
+  //     currentTarget: {
+  //       dataset: { row, column },
+  //     },
+  //     target: { value },
+  //   } = event;
+
+  //   let updatedRow = store.filter((item, i) => parseInt(i) === parseInt(row))[0];
+  //   updatedRow[column] = value;
+
+  //   this.setState({
+  //     store: store.map((item, i) => (item[column] === row ? updatedRow : item)),
+  //   });
+  // };
+  //};
+  const handleThanhToanChange = () => {
+    console.log("nhap thanh toan");
+  };
+
   return (
     <>
-      <Table celled>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell className="stt">STT</Table.HeaderCell>
-            <Table.HeaderCell>Loại hàng</Table.HeaderCell>
-            <Table.HeaderCell>Độ dày</Table.HeaderCell>
-            <Table.HeaderCell>ĐVT</Table.HeaderCell>
-            <Table.HeaderCell>SL</Table.HeaderCell>
-            <Table.HeaderCell>Đơn giá</Table.HeaderCell>
-            <Table.HeaderCell>Thành tiền</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {/* Thông số các loại hàng */}
-          {renderEl}
-          {/* Thông tin về tổng thành tiền, thanh toán, dư nợ */}
-          {thanhtienRender}
-          {thanhtoanRender}
-          {dunoRener}
-        </Table.Body>
-      </Table>
+      <div className="row ">
+        <div className="col-lg-12 col-md-12">
+          <div className="table-wrapper don-hang">
+            <Table celled id="table">
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell className="th-stt">STT</Table.HeaderCell>
+                  <Table.HeaderCell className="th-loaihang">
+                    Loại hàng
+                  </Table.HeaderCell>
+                  <Table.HeaderCell className="th-day">Độ dày</Table.HeaderCell>
+                  <Table.HeaderCell className="th-donvitinh">
+                    ĐVT
+                  </Table.HeaderCell>
+                  <Table.HeaderCell className="th-soluong">SL</Table.HeaderCell>
+                  <Table.HeaderCell className="th-dongia">
+                    Đơn giá
+                  </Table.HeaderCell>
+                  <Table.HeaderCell className="th-thanhtien">
+                    Thành tiền
+                  </Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {/* Thông số các loại hàng */}
+                {renderEl}
+                {/* Thanh tien */}
+                <Table.Row>
+                  <Table.Cell textAlign="center" colSpan="6" className="narrow">
+                    Tổng
+                  </Table.Cell>
+                  <Table.Cell
+                    id="thanhtien-render"
+                    textAlign="right"
+                    className="narrow"
+                  >
+                    {formatNumber(thanhtien)}
+                  </Table.Cell>
+                </Table.Row>
+                {/* Thanh toan */}
+                <Table.Row>
+                  <Table.Cell textAlign="center" colSpan="6" className="narrow">
+                    Thanh toán
+                  </Table.Cell>
+                  <Table.Cell
+                    id="thanhtoan-render"
+                    textAlign="right"
+                    className="narrow"
+                  >
+                    <ContentEditable
+                      html={formatNumber(thanhtoan)}
+                      data-column="item"
+                      data-row={27}
+                      className="content-editable"
+                      onChange={handleThanhToanChange}
+                      // onKeyPress={this.disableNewlines}
+                      // onPaste={this.pasteAsPlainText}
+                      onFocus={highlightAll}
+                      // onChange={this.handleContentEditableUpdate}
+                      // onDoubleClick={this.handleContentEditableUpdate}
+                    />
+                  </Table.Cell>
+                </Table.Row>
+                {/* Du no */}
+                <Table.Row>
+                  <Table.Cell textAlign="center" colSpan="6" className="narrow">
+                    Dư nợ
+                  </Table.Cell>
+                  <Table.Cell
+                    id="duno-render"
+                    textAlign="right"
+                    className="narrow"
+                  >
+                    {formatNumber(duno)}
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            </Table>
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-lg-6 col-md-6">
+          <div className="ngay-giao autocomplete">
+            <label>Ngày giao:</label>
+            <input
+              id="delivery-date"
+              type="text"
+              placeholder="Nhập ngày giao"
+            />
+          </div>
+        </div>
+        <div className="col-lg-6 col-md-6">
+          <div className="cong-no">
+            <p>Công nợ:</p>
+            <span id="cong-no">1.000.000.000</span>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

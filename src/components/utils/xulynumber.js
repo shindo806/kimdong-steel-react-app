@@ -14,6 +14,7 @@ function formatNumber(num) {
 
 // Chuyển số dạng 1.000.000 thành 1000000
 function toNumber(str) {
+
   let number;
   if (str.length > 1) {
     number = str.split('.').join('');

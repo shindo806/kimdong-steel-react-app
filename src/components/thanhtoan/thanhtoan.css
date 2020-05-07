@@ -544,6 +544,12 @@
 
 .left-panel .ten-khach-hang {
   padding-left: 5px;
+  position: relative;
+}
+
+.left-panel .ten-khach-hang label {
+  position: absolute;
+  top: 4px;
 }
 
 .left-panel .ten-khach-hang input {
@@ -568,19 +574,19 @@
 }
 
 .left-panel .don-hang .th-loaihang {
-  min-width: 320px;
-  max-width: 350px;
+  min-width: 320px !important;
+  max-width: 350px !important;
 }
 
 .left-panel .don-hang .th-doday,
 .left-panel .don-hang .th-donvitinh,
 .left-panel .don-hang .th-soluong {
-  width: 100px;
+  width: 100px !important;
 }
 
 .left-panel .don-hang .th-dongia,
 .left-panel .don-hang .th-thanhtien {
-  width: 150px;
+  width: 150px !important;
 }
 
 .left-panel .ngay-giao input {
@@ -612,8 +618,9 @@
 }
 
 .left-panel .table-wrapper {
-  height: 55vh;
+  height: 62vh;
   overflow-y: scroll;
+  padding-bottom: 20px;
 }
 
 .left-panel .table {
@@ -725,7 +732,7 @@
   margin: 5px 0px;
   padding: 5px 10px;
   width: 150px;
-  border-radius: 4px;
+
   border: 1px solid #cccccc;
   text-align: right;
   font-size: 15px;
@@ -1980,6 +1987,7 @@
 /*--------------
      Celled
 ---------------*/
+
 .ui.celled.table tr th,
 .ui.celled.table tr td {
   border-left: 1px solid rgba(34, 36, 38, 0.1);
@@ -2013,45 +2021,13 @@
   padding: 1.5em 1.5em;
 }
 
-/*--------------
-     Compact
----------------*/
-.ui.compact.table th {
-  padding-left: 0.7em;
-  padding-right: 0.7em;
-}
 
-.ui.compact.table td {
-  padding: 0.5em 0.7em;
-}
-
-/* Very */
-.ui[class*="very compact"].table th {
-  padding-left: 0.6em;
-  padding-right: 0.6em;
-}
-
-.ui[class*="very compact"].table td {
-  padding: 0.4em 0.6em;
-}
-
-/*--------------
-      Sizes
----------------*/
-/* Small */
-.ui.small.table {
-  font-size: 0.9em;
-}
 
 /* Standard */
 .ui.table {
   font-size: 1em;
 }
 
-/* Large */
-.ui.large.table {
-  font-size: 1.1em;
-}
 
 /*******************************
          Site Overrides
@@ -8922,7 +8898,7 @@ select.ui.dropdown {
 /*--------------------
    Types of Messages
 ---------------------*/
-.ui.form .success.message,
+
 .ui.form .warning.message,
 .ui.form .error.message {
   display: none;
@@ -9068,24 +9044,6 @@ select.ui.dropdown {
   -webkit-box-shadow: 0px 0em 0em 0em rgba(34, 36, 38, 0.35) inset;
   box-shadow: 0px 0em 0em 0em rgba(34, 36, 38, 0.35) inset;
   -webkit-appearance: none;
-}
-
-/*--------------------
-        Success
----------------------*/
-/* On Form */
-.ui.form.success .success.message:not(:empty) {
-  display: block;
-}
-
-.ui.form.success .compact.success.message:not(:empty) {
-  display: inline-block;
-}
-
-.ui.form.success .icon.success.message:not(:empty) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
 }
 
 /*--------------------
@@ -9801,6 +9759,56 @@ select.ui.dropdown {
          Site Overrides
 *******************************/
 
+
+.close {
+  display: none;
+}
+
+.ui.success.message {
+  position: absolute;
+  z-index: 10000;
+  right: -360px;
+  top: 200px;
+  box-shadow: 0 0 0 1px #a3c293 inset, 0 0 0 0 transparent;
+  border-radius: .28571429rem;
+
+  width: 350px;
+  min-height: 1rem;
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+
+  background-color: #fcfff5;
+  color: #2c662d;
+  text-align: center;
+
+  animation: slide-in-out 4s;
+}
+
+@keyframes slide-in-out {
+  0% {
+    right: -360px;
+  }
+
+  25% {
+    right: 20px;
+  }
+
+  50% {
+    right: 20px;
+  }
+
+  75% {
+    right: 20px;
+  }
+
+  100% {
+    right: -360px;
+  }
+}
+
+
+/* Autocomplete */
+
 .autocomplete {
   /*the container must be positioned relative:*/
   position: relative;
@@ -9844,24 +9852,67 @@ select.ui.dropdown {
   right: 0;
 }
 
-.autocomplete-items div {
-  padding: 10px;
-  cursor: pointer;
-  background-color: #fff;
-  border-bottom: 1px solid #d4d4d4;
+
+.react-autosuggest__container {
+  position: relative;
 }
 
-.autocomplete-items div:hover {
-  /*when hovering an item:*/
-  background-color: #e9e9e9;
+.react-autosuggest__input {
+  border: none;
+  outline: none;
+  background: none;
+  padding: 0.5rem 0px 0.5rem 7.2rem;
+  font-family: inherit;
+  font-size: 1rem;
+  width: 250px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  text-transform: capitalize;
 }
 
-.autocomplete-active {
-  /*when navigating through the items using the arrow keys:*/
-  background-color: DodgerBlue !important;
-  color: #ffffff;
+.react-autosuggest__input--focused {
+  outline: none;
+  border-color: #5264AE;
+  transition: all 200ms ease-in-out;
 }
 
-.close {
+.react-autosuggest__input--open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.react-autosuggest__suggestions-container {
   display: none;
+}
+
+.react-autosuggest__suggestions-container--open {
+  display: block;
+  position: absolute;
+  top: 46px;
+  width: 280px;
+
+  box-shadow: 0 0 0 1px #a3c293 inset, 0 0 0 0 transparent;
+  background-color: #fcfff5;
+  color: #2c662d;
+  font-weight: 300;
+  font-size: 16px;
+
+  z-index: 2;
+
+  line-height: 1.4285em;
+  border-radius: 0px 0px 4px 4px;
+}
+
+.react-autosuggest__suggestions-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.react-autosuggest__suggestion {
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+.react-autosuggest__suggestion--highlighted {
+  background-color: #ddd;
 }

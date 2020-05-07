@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 
+import { Message } from "semantic-ui-react";
+
 import logo from "../../assets/images/logo.svg";
 import Thongtinchung from "./Thongtinchung";
-// import Thongtinchitiet from "./Thongtinchitiet";
 import Xuathoadon from "./Xuathoadon";
 import Loaihang from "./Loaihang";
 import Thongso from "./Thongso";
 import TableRender from "./Table";
 
+import { getKhachHang } from "../../dataAPI/connectDB";
 require("./thanhtoan.css");
 
 export default function thanhtoan(props) {
@@ -18,6 +20,21 @@ export default function thanhtoan(props) {
       ? JSON.parse(localStorage.getItem("tempData"))
       : []
   );
+  // Lấy dữ liệu khách hàng, set to localStorage
+  let khachHangData = getKhachHang();
+  localStorage.setItem(
+    "khachhangData",
+    khachHangData.length ? JSON.stringify(khachHangData) : []
+  );
+  // Handle data change when user add item
+  useEffect(() => {
+    if (isAddItem) {
+      setData(JSON.parse(localStorage.getItem("tempData")));
+    }
+    setTimeout(() => {
+      setIsAddItem(false);
+    }, 4200);
+  }, [isAddItem]);
   return (
     <div>
       {/* Navbar */}
@@ -100,7 +117,7 @@ export default function thanhtoan(props) {
                     isAddItem={isAddItem}
                     setIsAddItem={setIsAddItem}
                   /> */}
-                  <TableRender data={data} />
+                  <TableRender data={data} isReRender={isAddItem} />
                 </div>
                 {/* Xuất hoá đơn - Lưu đơn hàng */}
                 <Xuathoadon />
@@ -135,6 +152,7 @@ export default function thanhtoan(props) {
                         loaihangRender={loaihangRender}
                         setLoaiHangRender={setLoaiHangRender}
                         setIsAddItem={setIsAddItem}
+                        setData={setData}
                       />
                       {/* Thêm - Sửa */}
 
@@ -148,6 +166,10 @@ export default function thanhtoan(props) {
               </div>
             </div>
           </div>
+          {/* Thông báo thêm hoá đơn thành công */}
+          {isAddItem ? (
+            <Message success header="Thêm một đơn hàng thành công" />
+          ) : null}
           {/* end of right-panel*/}
         </div>
       </div>

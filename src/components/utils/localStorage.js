@@ -8,4 +8,12 @@ function luuDuLieuTamThoi(donhang) {
   return true;
 }
 
-export default luuDuLieuTamThoi;
+function xoaDuLieuTamThoi() {
+  localStorage.removeItem('tempData');
+  return true;
+}
+
+export {
+  luuDuLieuTamThoi,
+  xoaDuLieuTamThoi
+};

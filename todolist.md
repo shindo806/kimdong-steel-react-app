@@ -8,6 +8,12 @@ Thanh Toan page
   -- Empty, string, number
   -- Handle việc user nhập 205,5 -> 205.500
 
+-- Add checkbox for VAT -> default: false
+
+-- Tạo một localStorage key="muaHangTrongNgay" để lưu tenkhachhang, khachhangid, masodonhang trong ngày
+++ Sửa, xoá, update
+++ Tạo mới cùng tên khách hàng -> mua 2 đơn hàng khác nhau trong ngày
+
 ### Production stage
 
 - Remove react dev tools in public/electron.js

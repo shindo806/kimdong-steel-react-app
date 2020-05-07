@@ -4,7 +4,7 @@ import * as congthuc from "../utils/tinhtien";
 
 import xuLyTieuDeLoaiThep from "../utils/xulytieudeloaithep";
 import { formatNumber, toNumber } from "../utils/xulynumber";
-import luuDuLieuTamThoi from "../utils/localStorage";
+import { luuDuLieuTamThoi } from "../utils/localStorage";
 import getDomIdElement from "../utils/getDomElement";
 
 export default function Thongso(props) {
@@ -166,8 +166,9 @@ export default function Thongso(props) {
     // Render tiêu đề loại thép
     xuLyTieuDeLoaiThep(props.loaihangRender, newState);
   };
-  const handleTrigger1 = (event) => {
+  const handleTrigger1 = (typeofValue, event) => {
     // Nhiệm vụ của function này là trigger function tính đơn giá và thành tiền mỗi lần user thay đổi giá trị các ô type1
+
     if (event.key === "Tab") {
       let thongso = {
         ...thongso1,
@@ -178,11 +179,42 @@ export default function Thongso(props) {
         dongia = 0;
       }
       let thanhtien = congthuc.tinhthanhtien(dongia, thongso3.soluong);
+
       setThongSo3((prev) => ({
         ...prev,
         dongia: formatNumber(dongia),
         thanhtien: formatNumber(thanhtien),
       }));
+      return;
+    }
+  };
+
+  const validateInput = (typeofValue, event) => {
+    if (
+      event.key === "Backspace" ||
+      event.altKey ||
+      event.shiftKey ||
+      event.ctrlKey ||
+      event.metaKey
+    )
+      return;
+    if (typeofValue === "number") {
+      const keyCode = event.keyCode || event.which;
+      const string = String.fromCharCode(keyCode);
+      const regex = /[0-9,]|\./;
+      if (!regex.test(string)) {
+        event.returnValue = false;
+        if (event.preventDefault) {
+          event.preventDefault();
+          alert("Vui lòng nhập giá trị số !");
+        }
+      }
+    } else if (typeofValue === "string") {
+      const keyCode = event.key;
+      if (parseInt(keyCode)) {
+        event.preventDefault();
+        alert("Vui lòng nhập giá trị chữ !");
+      }
     }
   };
 
@@ -222,6 +254,7 @@ export default function Thongso(props) {
         dongia = 0;
       }
       let thanhtien = congthuc.tinhthanhtien(dongia, thongso3.soluong);
+
       return setThongSo3((prev) => ({
         ...prev,
         dongia: formatNumber(dongia),
@@ -272,6 +305,22 @@ export default function Thongso(props) {
     if (elementID === "dongia") {
       if ((event.key === "Tab") | (event.key === "Enter")) {
         let dongia = getDomIdElement(`${elementID}`).value;
+        // TH1: Có giá trị sẵn do tính từ công thức và setState3
+        if (dongia.includes(".")) {
+          let dongiaFormated = toNumber(dongia);
+          let thanhtien = congthuc.tinhthanhtien(
+            dongiaFormated,
+            thongso3.soluong
+          );
+
+          return setThongSo3((prev) => ({
+            ...prev,
+            dongia: dongia,
+            thanhtien: formatNumber(thanhtien),
+          }));
+        }
+
+        // TH2: User nhập vào
         let dongiaFormated = formatNumber(dongia * 1000);
         let thanhtien = congthuc.tinhthanhtien(dongia * 1000, thongso3.soluong);
         return setThongSo3((prev) => ({
@@ -303,7 +352,7 @@ export default function Thongso(props) {
                 type="text"
                 placeholder="Chiều dài"
                 onChange={() => handleInputChange1("dai")}
-                onKeyDown={(e) => handleTrigger1(e)}
+                onKeyPress={(e) => handleTrigger1("number", e)}
                 onFocus={handleFocus}
               />
             </div>
@@ -315,7 +364,8 @@ export default function Thongso(props) {
                 type="text"
                 placeholder="Độ dày"
                 onChange={() => handleInputChange1("day")}
-                onKeyDown={(e) => handleTrigger1(e)}
+                onKeyDown={(e) => handleTrigger1("number", e)}
+                onKeyPress={(e) => validateInput("number", e)}
                 onFocus={handleFocus}
               />
             </div>
@@ -327,6 +377,8 @@ export default function Thongso(props) {
                 type="text"
                 placeholder="Đơn vị tính"
                 onChange={() => handleInputChange1("donvitinh")}
+                onKeyDown={(e) => handleTrigger1("string", e)}
+                onKeyPress={(e) => validateInput("string", e)}
                 onFocus={handleFocus}
               />
             </div>
@@ -342,7 +394,8 @@ export default function Thongso(props) {
                 type="text"
                 placeholder="Cạnh a"
                 onChange={() => handleInputChange1("a")}
-                onKeyDown={(e) => handleTrigger1(e)}
+                onKeyDown={(e) => handleTrigger1("number", e)}
+                onKeyPress={(e) => validateInput("number", e)}
                 onFocus={handleFocus}
               />
             </div>
@@ -354,7 +407,8 @@ export default function Thongso(props) {
                 type="text"
                 placeholder="Cạnh b"
                 onChange={() => handleInputChange1("b")}
-                onKeyDown={(e) => handleTrigger1(e)}
+                onKeyDown={(e) => handleTrigger1("number", e)}
+                onKeyPress={(e) => validateInput("number", e)}
                 onFocus={handleFocus}
               />
             </div>
@@ -366,7 +420,8 @@ export default function Thongso(props) {
                 type="text"
                 placeholder="Cạnh c"
                 onChange={() => handleInputChange1("c")}
-                onKeyDown={(e) => handleTrigger1(e)}
+                onKeyDown={(e) => handleTrigger1("number", e)}
+                onKeyPress={(e) => validateInput("number", e)}
                 onFocus={handleFocus}
               />
             </div>
@@ -378,7 +433,8 @@ export default function Thongso(props) {
                 type="text"
                 placeholder="Cạnh a1"
                 onChange={() => handleInputChange1("a1")}
-                onKeyDown={(e) => handleTrigger1(e)}
+                onKeyDown={(e) => handleTrigger1("number", e)}
+                onKeyPress={(e) => validateInput("number", e)}
                 onFocus={handleFocus}
               />
             </div>
@@ -392,6 +448,7 @@ export default function Thongso(props) {
                 value={thongso2.cong1}
                 onChange={() => handleInputChange2("cong1")}
                 onKeyDown={(e) => handleTrigger2("cong1", e)}
+                onKeyPress={(e) => validateInput("number", e)}
                 onFocus={handleFocus}
                 id="cong1"
                 type="text"
@@ -404,6 +461,7 @@ export default function Thongso(props) {
                 value={thongso2.cong2}
                 onChange={() => handleInputChange2("cong2")}
                 onKeyDown={(e) => handleTrigger2("cong2", e)}
+                onKeyPress={(e) => validateInput("number", e)}
                 onFocus={handleFocus}
                 id="cong2"
                 type="text"
@@ -416,6 +474,7 @@ export default function Thongso(props) {
                 value={thongso2.cong3}
                 onChange={() => handleInputChange2("cong3")}
                 onKeyDown={(e) => handleTrigger2("cong3", e)}
+                onKeyPress={(e) => validateInput("number", e)}
                 onFocus={handleFocus}
                 id="cong3"
                 type="text"
@@ -432,6 +491,7 @@ export default function Thongso(props) {
                 value={thongso3.dongia}
                 onChange={(e) => handleInputChange3("dongia", e)}
                 onKeyDown={(e) => handleTrigger3("dongia", e)}
+                onKeyPress={(e) => validateInput("number", e)}
                 onFocus={handleFocus}
                 id="dongia"
                 type="text"
@@ -444,6 +504,7 @@ export default function Thongso(props) {
                 value={thongso3.soluong}
                 onChange={(e) => handleInputChange3("soluong", e)}
                 // onKeyDown={(e) => handleTrigger3("soluong", e)}
+                onKeyPress={(e) => validateInput("number", e)}
                 onFocus={handleFocus}
                 id="soluong"
                 type="text"
