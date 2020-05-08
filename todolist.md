@@ -14,6 +14,10 @@ Thanh Toan page
 ++ Sửa, xoá, update
 ++ Tạo mới cùng tên khách hàng -> mua 2 đơn hàng khác nhau trong ngày
 
+### Fix bug
+
+-- mã số đơn hàng render chưa đúng
+
 ### Production stage
 
 - Remove react dev tools in public/electron.js

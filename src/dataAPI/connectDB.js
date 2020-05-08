@@ -20,125 +20,6 @@ db.defaults({
 // Utils 
 
 
-const donhangSampleData = [{
-    "duno": -1004800,
-    "tenkhachhang": "lam thai son",
-    "khachhangID": "1",
-    "masodonhang": "010611",
-    "ngaylapdonhang": "06/11/2019",
-    "vat": true,
-    "tongtien": 1004800,
-    "thanhtoan": 0,
-    "ngaygiao": "",
-    "trangthaigiacong": false,
-    "thongtindonhang": [{
-      "masoloaithep": "T1",
-      "loaihang": "Tấm - 8 ly : 500*1000",
-      "dai": "",
-      "day": "8",
-      "donvitinh": "cai",
-      "soluong": "2",
-      "a": "500",
-      "b": "1000",
-      "c": "",
-      "a1": "",
-      "cong1": 16000,
-      "cong2": 0,
-      "cong3": 0,
-      "dongia": 502400,
-      "thanhtien": 1004800
-    }]
-  },
-  {
-    "duno": -30144,
-    "tenkhachhang": "le van sinh",
-    "khachhangID": "2",
-    "masodonhang": "011311",
-    "ngaylapdonhang": "13/11/2019",
-    "tongtien": 30144,
-    "thanhtoan": 0,
-    "ngaygiao": "",
-    "trangthaigiacong": false,
-    "vat": false,
-    "thongtindonhang": [{
-        "masoloaithep": "T1",
-        "loaihang": "Tấm - 8 ly : 80*100",
-        "dai": "",
-        "day": "8",
-        "donvitinh": "cai",
-        "soluong": "2",
-        "a": "80",
-        "b": "100",
-        "c": "",
-        "a1": "",
-        "cong1": 15000,
-        "cong2": null,
-        "cong3": null,
-        "dongia": 7536,
-        "thanhtien": 15072
-      },
-      {
-        "masoloaithep": "T1",
-        "loaihang": "Tấm - 8 ly : 80*100",
-        "dai": "",
-        "day": "8",
-        "donvitinh": "cai",
-        "soluong": "2",
-        "a": "80",
-        "b": "100",
-        "c": "",
-        "a1": "",
-        "cong1": 15000,
-        "cong2": null,
-        "cong3": null,
-        "dongia": 7536,
-        "thanhtien": 15072
-      }
-    ]
-  },
-  {
-    "duno": -1004800,
-    "tenkhachhang": "lam thai son",
-    "khachhangID": "1",
-    "masodonhang": "020711",
-    "ngaylapdonhang": "07/11/2019",
-    "vat": true,
-    "tongtien": 1004800,
-    "thanhtoan": 0,
-    "ngaygiao": "",
-    "trangthaigiacong": false,
-    "thongtindonhang": [{
-      "masoloaithep": "T1",
-      "loaihang": "Tấm - 8 ly : 500*1000",
-      "dai": "",
-      "day": "8",
-      "donvitinh": "cai",
-      "soluong": "2",
-      "a": "500",
-      "b": "1000",
-      "c": "",
-      "a1": "",
-      "cong1": 16000,
-      "cong2": 0,
-      "cong3": 0,
-      "dongia": 502400,
-      "thanhtien": 1004800
-    }]
-  }
-]
-
-const khachhangSampleData = [{
-    "khachhangID": "1",
-    "tenkhachhang": "lam thai son",
-    "sodienthoai": "0938752570"
-  },
-  {
-    "khachhangID": "2",
-    "tenkhachhang": "le van sinh",
-    "sodienthoai": "09123456"
-  }
-]
-
 const muahangSampleData = [{
     "nhacungcap": "lam thai son",
     "ngaythangnam": "17/11/2019",
@@ -159,7 +40,6 @@ const muahangSampleData = [{
   }
 ]
 const getAllData = () => {
-
   return db.read().value();
 };
 
@@ -173,6 +53,24 @@ const postLuuDonHang = (donhang) => {
   // TH1: Tồn tại khách hàng 
   //    + Sử dụng lại "khachhangID", "tenkhachhang" trong đơn hàng -> lấy từ 
   //       khachhangData 
+  let khachhangData = getKhachHang();
+  if (khachhangData === null || khachhangData.length === 0) {
+    console.log("chua co khach hang nay")
+    addKhachHang({
+      tenkhachhang: donhang.tenkhachhang,
+      sodienthoai: donhang.sodienthoai,
+      khachhangID: donhang.khachhangID
+    })
+  } else {
+    let matched = khachhangData.filter(khachhang => khachhang.khachhangID === donhang.khachhangID);
+    if (matched === null || matched.length === 0) {
+      addKhachHang({
+        tenkhachhang: donhang.tenkhachhang,
+        sodienthoai: donhang.sodienthoai,
+        khachhangID: donhang.khachhangID
+      })
+    }
+  }
 
   // TH2: Không tồn tại khách hàng 
   db.get('donhang').push(donhang).write();
@@ -182,7 +80,12 @@ const postLuuDonHang = (donhang) => {
 // Khach hang
 const getKhachHang = () => {
   let khachhangData = db.get('khachhang').value();
+
   return khachhangData;
+}
+
+const addKhachHang = (khachhangInfo) => {
+  db.get('khachhang').push(khachhangInfo).write();
 }
 
 

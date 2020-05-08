@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import "./global.css";
-import * as dataAPI from "./dataAPI/connectDB";
+import loadingApp from "./components/utils/loadingApp";
+
 import Thanhtoan from "./components/thanhtoan/thanhtoan";
 
 class App extends Component {
   render() {
+    loadingApp();
     return (
       <div className="App">
         <Thanhtoan />

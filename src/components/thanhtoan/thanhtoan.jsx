@@ -2,14 +2,18 @@ import React, { useState, useEffect } from "react";
 
 import { Message } from "semantic-ui-react";
 
+// assest Import
 import logo from "../../assets/images/logo.svg";
+// Components import
 import Thongtinchung from "./Thongtinchung";
 import Xuathoadon from "./Xuathoadon";
 import Loaihang from "./Loaihang";
 import Thongso from "./Thongso";
-import TableRender from "./Table";
+import Thongsochitiet from "./Thongsochitiet";
 
 import { getKhachHang } from "../../dataAPI/connectDB";
+import { initialMaSoDonHang } from "../utils/masodonhang";
+
 require("./thanhtoan.css");
 
 export default function thanhtoan(props) {
@@ -20,8 +24,10 @@ export default function thanhtoan(props) {
       ? JSON.parse(localStorage.getItem("tempData"))
       : []
   );
+  const [masodonhang, setMaSoDonHang] = useState(() => initialMaSoDonHang());
   // Lấy dữ liệu khách hàng, set to localStorage
   let khachHangData = getKhachHang();
+
   localStorage.setItem(
     "khachhangData",
     khachHangData.length ? JSON.stringify(khachHangData) : []
@@ -35,6 +41,11 @@ export default function thanhtoan(props) {
       setIsAddItem(false);
     }, 4200);
   }, [isAddItem]);
+  // Reset UI when user save data
+  useEffect(() => {
+    setData([]);
+    // setMaSoDonHang(props.masodonhang);
+  }, [masodonhang]);
   return (
     <div>
       {/* Navbar */}
@@ -111,16 +122,16 @@ export default function thanhtoan(props) {
               <div className="left-panel" id="left-panel">
                 <div className="main-content">
                   {/* Thông tin chung của khách mua hàng: Tên, sdt, mã số đơn hàng trong ngày, ngày mua hàng */}
-                  <Thongtinchung />
+                  <Thongtinchung masodonhang={masodonhang} />
                   {/* Thông tin chi tiết của đơn hàng theo khách hàng xác định */}
-                  {/* <Thongtinchitiet
+                  {/* <Thongo
                     isAddItem={isAddItem}
                     setIsAddItem={setIsAddItem}
                   /> */}
-                  <TableRender data={data} isReRender={isAddItem} />
+                  <Thongsochitiet data={data} isReRender={isAddItem} />
                 </div>
                 {/* Xuất hoá đơn - Lưu đơn hàng */}
-                <Xuathoadon />
+                <Xuathoadon setMaSoDonHang={setMaSoDonHang} />
               </div>
             </div>
             {/* Right panel */}

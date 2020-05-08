@@ -22,83 +22,100 @@ const TableRender = (props) => {
 
   function createRenderEl() {
     // Table
-    const renderEl = props.data.map((row, i) => {
-      return (
-        <Table.Row key={i + 1}>
+    let renderEl;
+    if (props.data.length === 0) {
+      renderEl = (
+        <Table.Row>
           <Table.Cell textAlign="center" className="narrow">
-            {i + 1}
+            {"1"}
           </Table.Cell>
-          <Table.Cell textAlign="left" className="narrow">
-            <ContentEditable
-              html={row.loaihang}
-              data-column="item"
-              data-row={i}
-              className="content-editable"
-              // onKeyPress={this.disableNewlines}
-              // onPaste={this.pasteAsPlainText}
-              // onFocus={this.highlightAll}
-              // onChange={this.handleContentEditableUpdate}
-              // onDoubleClick={this.handleContentEditableUpdate}
-            />
-          </Table.Cell>
-          <Table.Cell textAlign="center" className="narrow">
-            <ContentEditable
-              html={row.day}
-              data-column="item"
-              data-row={i}
-              className="content-editable"
-              // onKeyPress={this.disableNewlines}
-              // onPaste={this.pasteAsPlainText}
-              // onFocus={this.highlightAll}
-              // onChange={this.handleContentEditableUpdate}
-              // onDoubleClick={this.handleContentEditableUpdate}
-            />
-          </Table.Cell>
-          <Table.Cell textAlign="center" className="narrow">
-            <ContentEditable
-              html={row.donvitinh}
-              data-column="item"
-              data-row={i}
-              className="content-editable"
-              // onKeyPress={this.disableNewlines}
-              // onPaste={this.pasteAsPlainText}
-              // onFocus={this.highlightAll}
-              // onChange={this.handleContentEditableUpdate}
-              // onDoubleClick={this.handleContentEditableUpdate}
-            />
-          </Table.Cell>
-          <Table.Cell textAlign="center" className="narrow">
-            <ContentEditable
-              html={row.soluong}
-              data-column="item"
-              data-row={i}
-              className="content-editable"
-              // onKeyPress={this.disableNewlines}
-              // onPaste={this.pasteAsPlainText}
-              // onFocus={this.highlightAll}
-              // onChange={this.handleContentEditableUpdate}
-              // onDoubleClick={this.handleContentEditableUpdate}
-            />
-          </Table.Cell>
-          <Table.Cell textAlign="right" className="narrow">
-            <ContentEditable
-              html={row.dongia}
-              data-column="item"
-              data-row={i}
-              className="content-editable"
-              // onKeyPress={this.disableNewlines}
-              // onPaste={this.pasteAsPlainText}
-              // onFocus={this.highlightAll}
-              // onChange={this.handleContentEditableUpdate}
-              // onDoubleClick={this.handleContentEditableUpdate}
-            />
-          </Table.Cell>
-          <Table.Cell textAlign="right" className="narrow">
-            {row.thanhtien}
-          </Table.Cell>
+          <Table.Cell textAlign="left" className="narrow"></Table.Cell>
+          <Table.Cell textAlign="center" className="narrow"></Table.Cell>
+          <Table.Cell textAlign="center" className="narrow"></Table.Cell>
+          <Table.Cell textAlign="center" className="narrow"></Table.Cell>
+          <Table.Cell textAlign="right" className="narrow"></Table.Cell>
+          <Table.Cell textAlign="right" className="narrow"></Table.Cell>
         </Table.Row>
       );
-    });
+    } else {
+      renderEl = props.data.map((row, i) => {
+        return (
+          <Table.Row key={i + 1}>
+            <Table.Cell textAlign="center" className="narrow">
+              {i + 1}
+            </Table.Cell>
+            <Table.Cell textAlign="left" className="narrow">
+              <ContentEditable
+                html={row.loaihang}
+                data-column="item"
+                data-row={i}
+                className="content-editable"
+                // onKeyPress={this.disableNewlines}
+                // onPaste={this.pasteAsPlainText}
+                // onFocus={this.highlightAll}
+                // onChange={this.handleContentEditableUpdate}
+                // onDoubleClick={this.handleContentEditableUpdate}
+              />
+            </Table.Cell>
+            <Table.Cell textAlign="center" className="narrow">
+              <ContentEditable
+                html={row.day}
+                data-column="item"
+                data-row={i}
+                className="content-editable"
+                // onKeyPress={this.disableNewlines}
+                // onPaste={this.pasteAsPlainText}
+                // onFocus={this.highlightAll}
+                // onChange={this.handleContentEditableUpdate}
+                // onDoubleClick={this.handleContentEditableUpdate}
+              />
+            </Table.Cell>
+            <Table.Cell textAlign="center" className="narrow">
+              <ContentEditable
+                html={row.donvitinh}
+                data-column="item"
+                data-row={i}
+                className="content-editable"
+                // onKeyPress={this.disableNewlines}
+                // onPaste={this.pasteAsPlainText}
+                // onFocus={this.highlightAll}
+                // onChange={this.handleContentEditableUpdate}
+                // onDoubleClick={this.handleContentEditableUpdate}
+              />
+            </Table.Cell>
+            <Table.Cell textAlign="center" className="narrow">
+              <ContentEditable
+                html={row.soluong}
+                data-column="item"
+                data-row={i}
+                className="content-editable"
+                // onKeyPress={this.disableNewlines}
+                // onPaste={this.pasteAsPlainText}
+                // onFocus={this.highlightAll}
+                // onChange={this.handleContentEditableUpdate}
+                // onDoubleClick={this.handleContentEditableUpdate}
+              />
+            </Table.Cell>
+            <Table.Cell textAlign="right" className="narrow">
+              <ContentEditable
+                html={row.dongia}
+                data-column="item"
+                data-row={i}
+                className="content-editable"
+                // onKeyPress={this.disableNewlines}
+                // onPaste={this.pasteAsPlainText}
+                // onFocus={this.highlightAll}
+                // onChange={this.handleContentEditableUpdate}
+                // onDoubleClick={this.handleContentEditableUpdate}
+              />
+            </Table.Cell>
+            <Table.Cell textAlign="right" className="narrow">
+              {row.thanhtien}
+            </Table.Cell>
+          </Table.Row>
+        );
+      });
+    }
     setRenderEl(renderEl);
   }
 

@@ -1,5 +1,7 @@
 import React from "react";
 import { postLuuDonHang, getAllData } from "../../dataAPI/connectDB";
+import { muaHangTrongNgay, removeTempData } from "../utils/localStorage";
+import { luuMaSoDonHang, taoMaSoDonHang } from "../utils/masodonhang";
 
 var moment = require("moment");
 export default function Xuathoadon(props) {
@@ -7,13 +9,23 @@ export default function Xuathoadon(props) {
     let tongtien = document.querySelector("#thanhtien-render").innerText;
     let thanhtoan = document.querySelector("#thanhtoan-render").value;
     let duno = document.querySelector("#duno-render").innerText;
-    let khachhangInfo = JSON.parse(localStorage.getItem("tempKhachHangData")); // {ten, khachhangID, sdt}
+    let khachhangInfo = JSON.parse(localStorage.getItem("tempKhachHangInfo")); // {ten, khachhangID, sdt}
     // remove sodienthoai, ko can luu sdt vao donhang -> luu vao khachhang
-    delete khachhangInfo.sodienthoai;
+
+    if (khachhangInfo === null) {
+      alert("Thiếu tên khách hàng");
+      return;
+    }
+
     let masodonhang = document.querySelector("#don-hang-id").innerText;
+
     let ngaylapdonhang = moment().format("LLLL");
     let trangthaigiacong = false;
     let tatcadonhang = JSON.parse(localStorage.getItem("tempData"));
+    if (tatcadonhang === null) {
+      alert("Không thể lưu đơn hàng trống !");
+      return;
+    }
     let donhang = {
       duno,
       tongtien,
@@ -24,10 +36,28 @@ export default function Xuathoadon(props) {
       trangthaigiacong,
       thongtindonhang: tatcadonhang,
     };
-    let saveStatus = postLuuDonHang(donhang);
-    console.log(saveStatus);
-    let allData = getAllData();
-    console.log(allData);
+
+    // Luu don hang vao database
+    postLuuDonHang(donhang);
+    // Luu thong tin khach mua hang trong ngay vao localStorage
+    muaHangTrongNgay({
+      tenkhachhang: khachhangInfo.tenkhachhang,
+      khachhangID: khachhangInfo.khachhangID,
+      masodonhang,
+    });
+    // Luu lai masodonhang va tang gia tri masodonhang +1
+    luuMaSoDonHang(masodonhang);
+    let newMaSoDonhang = taoMaSoDonHang();
+    props.setMaSoDonHang(newMaSoDonhang);
+    // Delete temp data on localStorage
+    removeTempData();
+    // Clear tenkhachhhang va sodienthoai sau khi luu du lieu xong
+    clearThongTinChung();
+  };
+
+  const clearThongTinChung = () => {
+    document.getElementById("tenkhachhang").value = "";
+    document.getElementById("sodienthoai").value = "";
   };
   return (
     <>

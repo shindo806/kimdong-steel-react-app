@@ -535,6 +535,15 @@
   padding-right: 10px;
 }
 
+.left-panel .title-info-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.left-panel .title-info-row p {
+  margin-right: 10px;
+}
+
 .left-panel .title-col-1 {
   text-align: center;
   text-transform: uppercase;
@@ -9781,7 +9790,7 @@ select.ui.dropdown {
   color: #2c662d;
   text-align: center;
 
-  animation: slide-in-out 4s;
+  animation: slide-in-out 3s;
 }
 
 @keyframes slide-in-out {
